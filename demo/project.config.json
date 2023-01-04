@@ -36,12 +36,11 @@
     "showES6CompileOption": false,
     "ignoreUploadUnusedFiles": true
   },
-  "appid": "",
+  "appid": "wxbfc1e2a783d9ade8",
   "projectname": "qcloud-iotexplorer-appdev-miniprogram-sdk-demo",
   "libVersion": "2.25.2",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
-  "condition": {},
   "compileType": "miniprogram",
   "srcMiniprogramRoot": "miniprogram/",
   "packOptions": {
@@ -51,5 +50,7 @@
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
-  }
+  },
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
+  "condition": {}
 }

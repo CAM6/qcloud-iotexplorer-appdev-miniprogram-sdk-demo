@@ -229,7 +229,7 @@ Component({
         deviceAdapter, // ble-combo进行配网时需要
         wifiConfToken: this.bindDeviceToken,
         targetWifiInfo: this.targetWifi,
-        wifiConfType: 'llsyncble', // ble or llsyncble
+        wifiConfType: 'ble', // ble or llsyncble
         autoRetry: true, // 自动处理故障流程
         familyId: 'default',
         roomId: '0',
