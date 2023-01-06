@@ -1,14 +1,18 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/panel/panel",
+    "pages/device-panel/panel/panel",
+    "pages/device-detail/index/index",
+    "pages/device-panel/nixie-tube-ips-panel/index/index",
     "pages/add-device/simple-config/simple-config",
     "pages/add-device/air-kiss/air-kiss",
     "pages/add-device/smart-config/smart-config",
     "pages/add-device/soft-ap/soft-ap",
     "pages/add-device/ble-combo/ble-combo",
-    "pages/firmware-upgrade/firmware-upgrade",
-    "pages/ble-firmware-upgrade/ble-firmware-upgrade",
+    "pages/device-detail/firmware-upgrade/firmware-upgrade",
+    "pages/device-detail/ble-firmware-upgrade/ble-firmware-upgrade",
+    "pages/device-detail/device-name/device-name",
+    "pages/device-detail/device-info/device-info",
     "pages/share/share-list/share-list",
     "pages/share/receive-share/receive-share",
     "pages/add-device/llsync/llsync"
@@ -46,7 +50,6 @@
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",
-  "style": "v2",
   "permission": {
     "scope.userLocation": {
       "desc": "查询附近WiFi需要授权使用您的位置信息"
