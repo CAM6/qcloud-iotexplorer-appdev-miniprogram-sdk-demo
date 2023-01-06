@@ -1,5 +1,5 @@
-const { getErrorMsg } = require('../../libs/utillib');
-const { bluetoothAdapter } = require('../../blueToothAdapter');
+const { getErrorMsg } = require('../../../libs/utillib');
+const { bluetoothAdapter } = require('../../../blueToothAdapter');
 
 // 固件升级的常量
 const { constants: llsyncConstants } = require('qcloud-iotexplorer-bluetooth-adapter-llsync');

@@ -1,0 +1,57 @@
+<!--pages/panel/detail/detail.wxml-->
+
+<view class="container">
+  <van-cell 
+    is-link
+    title="设备名称"
+    value="{{deviceInfo.AliasName}}"
+    custom-class="custom-class"
+    link-type="navigateTo"
+    url="/pages/device-detail/device-name/device-name?aliasName={{deviceInfo.AliasName}}&productId={{deviceInfo.ProductId}}&deviceName={{deviceInfo.DeviceName}}"
+  />
+  <van-cell 
+    is-link
+    title="设备信息"
+    id= "device-info"
+    bind:click="onOperationButtonClick"
+  />
+  <van-cell 
+    is-link
+    title="文件资源管理"
+    link-type="navigateTo"
+    url="/pages/file-manage/add-file/add-file"
+  />
+
+  <block wx:if="{{!deviceInfo.isShareDevice}}">
+    <van-cell 
+    is-link
+    title="设备分享"
+    link-type="navigateTo"
+    value="{{deviceInfo.isShareDevice}}"
+    url="/pages/share/share-list/share-list?deviceId={{deviceInfo.DeviceId}}"
+    />
+    <van-cell 
+      is-link
+      title="固件升级"
+      id= "check-firmware-upgrade"
+      bind:click="onOperationButtonClick"
+    />
+
+    <van-button 
+    type="default" 
+    size="large" 
+    custom-class="button-delete"
+    bind:click="onOperationButtonClick"
+    id="delete-device">删除设备并清除数据</van-button>
+  </block>
+
+  <van-button wx:else
+  type="default" 
+  size="large" 
+  custom-class="button-delete"
+  bind:click="onOperationButtonClick"
+  id="remove-share-device"
+  >删除分享</van-button>
+
+</view>
+

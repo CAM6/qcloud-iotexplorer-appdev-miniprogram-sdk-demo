@@ -5,9 +5,9 @@
     class="config-device-img"
   />
   <view class="config-device-guide">
-    <view class="config-device-guide-line">1. 接通设备电源。</view>
-    <view class="config-device-guide-line">2. 长按复位键（开关）5 秒，指示灯快闪时，再次长按复位键 3 秒。</view>
-    <view class="config-device-guide-line">3. 指示灯进入慢闪状态即可。</view>
+    <view class="config-device-guide-line">1. 设备电源。</view>
+    <view class="config-device-guide-line">2. 长按 D 键10秒，设备恢复出厂设置并重启</view>
+    <view class="config-device-guide-line">3. 显示屏幕显示 “start config wifi” </view>
   </view>
 </view>
 <btn-group

@@ -12,6 +12,7 @@
     "url": "git+https://github.com/tencentyun/qcloud-iotexplorer-appdev-miniprogram-sdk-demo.git"
   },
   "dependencies": {
+    "@vant/weapp": "^1.10.11",
     "base64-js": "^1.5.1",
     "qcloud-iotexplorer-appdev-plugin-wificonf-airkiss": "^2.3.17",
     "qcloud-iotexplorer-appdev-plugin-wificonf-blecombo": "^2.3.28",

@@ -1,0 +1,23 @@
+<!--pages/device-detail/device-info/device-info.wxml-->
+
+<view class="container">
+  <van-cell 
+    title="产品型号"
+    value="{{}}"
+    custom-class="custom-class"
+  />
+  <van-cell 
+    title="MAC地址"
+    value="{{}}"
+  />
+  <van-cell 
+    title="固件版本"
+    value="{{}}"
+  />
+  <van-cell 
+    title="设备ID"
+    value="{{deviceId}}"
+  />
+</view>
+
+

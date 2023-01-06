@@ -3,12 +3,12 @@ const {
   deleteDeviceFromFamily,
   removeUserShareDevice,
   checkDeviceFirmwareUpdate,
-} = require('../../models');
-const { controlDeviceData, getDevicesData } = require('../../redux/actions');
-const { getErrorMsg } = require('../../libs/utillib');
-const promisify = require('../../libs/wx-promisify');
-const { subscribeStore } = require('../../libs/store-subscribe');
-const { dangerColor } = require('../../constants');
+} = require('../../../models');
+const { controlDeviceData, getDevicesData } = require('../../../redux/actions');
+const { getErrorMsg } = require('../../../libs/utillib');
+const promisify = require('../../../libs/wx-promisify');
+const { subscribeStore } = require('../../../libs/store-subscribe');
+const { dangerColor } = require('../../../constants');
 
 const getTemplateShownValue = (templateInfo, value) => {
   let shownValue;
@@ -325,11 +325,11 @@ Page({
             if (confirm) {
               if (this.data.deviceInfo.NetType === 'ble') {
                 wx.navigateTo({
-                  url: `/pages/ble-firmware-upgrade/ble-firmware-upgrade?deviceId=${this.deviceId}`,
+                  url: `/pages/device-detail/ble-firmware-upgrade/ble-firmware-upgrade?deviceId=${this.deviceId}`,
                 });
               } else {
                 wx.navigateTo({
-                  url: `/pages/firmware-upgrade/firmware-upgrade?deviceId=${this.deviceId}`,
+                  url: `/pages/device-detail/firmware-upgrade/firmware-upgrade?deviceId=${this.deviceId}`,
                 });
               }
             }

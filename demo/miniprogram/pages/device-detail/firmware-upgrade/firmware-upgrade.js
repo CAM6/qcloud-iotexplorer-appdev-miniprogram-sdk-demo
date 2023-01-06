@@ -1,6 +1,6 @@
-const { describeDeviceFirmwareUpdateStatus, publishDeviceFirmwareUpdateMessage } = require('../../models');
-const { delay } = require('../../libs/utillib');
-const { UpgradeStatus } = require('../../constants');
+const { describeDeviceFirmwareUpdateStatus, publishDeviceFirmwareUpdateMessage } = require('../../../models');
+const { delay } = require('../../../libs/utillib');
+const { UpgradeStatus } = require('../../../constants');
 
 const PageState = {
   PREPARING: 0,

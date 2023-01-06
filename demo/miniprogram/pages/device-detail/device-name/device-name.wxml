@@ -1,0 +1,25 @@
+<!--pages/device-detail/device-name/device-name.wxml-->
+
+<view class="container">
+  <van-cell-group>
+    <van-field
+      label="设备名称"
+      model:value="{{ aliasName }}"
+      placeholder="请输入设备名称"
+      border="{{ false }}"
+      maxlength="11"
+      custom-style="margin-top: 30rpx;"
+    />
+  </van-cell-group>
+
+  <van-button 
+    type="default" 
+    size="large" 
+    custom-class="button-save"
+    bind:click="onOperationButtonClick"
+    id="save-name">保存</van-button>
+
+    <van-toast id="van-toast" />
+
+</view>
+

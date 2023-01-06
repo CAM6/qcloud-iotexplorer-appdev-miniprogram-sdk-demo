@@ -36,15 +36,28 @@ Page({
   },
 
   onTapItem({ currentTarget: { dataset: { item } } }) {
-    if (item.isShareDevice) {
-      wx.navigateTo({
-        url: `/pages/panel/panel?deviceId=${item.DeviceId}&isShareDevice=1`,
-      });
-    } else {
-      wx.navigateTo({
-        url: `/pages/panel/panel?deviceId=${item.DeviceId}`,
-      });
+    if(item.ProductId == "2JN512CCOY") {
+      if (item.isShareDevice) {
+        wx.navigateTo({
+          url: `/pages/device-panel/nixie-tube-ips-panel/index/index?deviceId=${item.DeviceId}&isShareDevice=1`,
+        });
+      } else {
+        wx.navigateTo({
+          url: `/pages/device-panel/nixie-tube-ips-panel/index/index?deviceId=${item.DeviceId}`,
+        });
+      }
+    }else {
+      if (item.isShareDevice) {
+        wx.navigateTo({
+          url: `/pages/device-panel/panel/panel?deviceId=${item.DeviceId}&isShareDevice=1`,
+        });
+      } else {
+        wx.navigateTo({
+          url: `/pages/device-panel/panel/panel?deviceId=${item.DeviceId}`,
+        });
+      }
     }
+    
   },
 
   onPullDownRefresh() {
@@ -69,22 +82,8 @@ Page({
   },
 
   handleAddDevice() {
-    wx.showActionSheet({
-      itemList: ['配网插件方式', '自定义配网ui方式', '扫描设备二维码'],
-      success: ({ tapIndex }) => {
-        switch (tapIndex) {
-          case 0:
-            this.handleAddDeviceByPlugin();
-            break;
-          case 1:
-            showAddDeviceMenu();
-            break;
-          case 2:
-            // 使用控制台设备调试二维码绑定设备仅适用于开发调试，请勿用于生产环境
-            addDeviceByQrCode();
-            break;
-        }
-      }
+    wx.navigateTo({
+      url: '/pages/add-device/ble-combo/ble-combo',
     });
   },
 

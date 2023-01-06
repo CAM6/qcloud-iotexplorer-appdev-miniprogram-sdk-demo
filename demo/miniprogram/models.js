@@ -229,6 +229,12 @@ const sigBindDeviceInFamily = async ({
   SignMethod,
 });
 
+const updateDeviceInFamily = async ({ ProductId, DeviceName, AliasName }) => requestApi('AppUpdateDeviceInFamily', {
+  ProductId,
+  DeviceName,
+  AliasName
+});
+
 module.exports = {
   requestApi,
   getDeviceList,
@@ -253,4 +259,5 @@ module.exports = {
   setUserDeviceConfig,
   secureAddDeviceInFamily,
   sigBindDeviceInFamily,
+  updateDeviceInFamily,
 };

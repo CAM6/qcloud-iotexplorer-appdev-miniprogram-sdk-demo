@@ -1,0 +1,21 @@
+/* pages/panel/detail/detail.wxss */
+
+.container {
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.custom-class {
+  margin-top: 30rpx;
+}
+
+.button-delete {
+  left: 70rpx;
+  margin-top:70rpx;
+  width: 80% !important;
+  height: 75rpx !important;
+  border: 2px solid white;
+  border-radius: 25px !important;
+  color: red !important;
+  font-size: 14px !important;
+}

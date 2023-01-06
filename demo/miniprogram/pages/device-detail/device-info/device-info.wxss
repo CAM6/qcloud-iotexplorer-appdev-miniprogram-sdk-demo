@@ -1,0 +1,10 @@
+/* pages/device-detail/device-info/device-info.wxss */
+
+.container {
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.custom-class {
+  margin-top: 30rpx;
+}

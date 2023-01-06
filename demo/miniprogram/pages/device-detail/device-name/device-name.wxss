@@ -1,0 +1,18 @@
+/* pages/device-detail/device-name/device-name.wxss */
+
+.container {
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.button-save {
+  left: 70rpx;
+  margin-top:50rpx;
+  width: 80% !important;
+  height: 75rpx !important;
+  border: 2px solid white;
+  border-radius: 25px !important;
+  color: white !important;
+  font-size: 14px !important;
+  background-color: #2372fe !important;
+}

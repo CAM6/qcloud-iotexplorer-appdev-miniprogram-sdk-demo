@@ -54,7 +54,7 @@ App({
     } else {
       wx.cloud.init({
         // Todo 请填写您的云开发环境 ID
-        env: 'cloud1-4gks2vrt30ed5154',
+        env: 'smart-device-9gxm2t0gcfb27c2f',
       });
     }
 
