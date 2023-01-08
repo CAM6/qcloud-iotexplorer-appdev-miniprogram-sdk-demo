@@ -34,6 +34,13 @@
       <view class="item-status status-{{deviceStatus === 1 ? 'online' : 'offline'}}" wx:else>{{deviceStatus === 1 ? '在线' : '离线'}}</view>
     </view>
     <view class="page-main">
+
+      <van-cell 
+      is-link
+      title="RGB控制"
+      link-type="navigateTo"
+      url="/pages/device-panel/nixie-tube-ips-panel/rgb-control/rgb-control"
+    />
       <view class="panel-list">
         <block wx:if="{{dataTemplate.properties.length > 0}}">
           <block wx:for="{{dataTemplate.properties}}" wx:key="id">

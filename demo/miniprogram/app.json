@@ -15,9 +15,10 @@
     "pages/device-detail/device-info/device-info",
     "pages/share/share-list/share-list",
     "pages/share/receive-share/receive-share",
-    "pages/add-device/llsync/llsync"
+    "pages/add-device/llsync/llsync",
+    "pages/device-panel/nixie-tube-ips-panel/rgb-control/rgb-control"
   ],
-  "subPackages":[
+  "subPackages": [
     {
       "root": "pages/file-manage",
       "pages": [
@@ -31,9 +32,7 @@
       "pages": [
         "device-configuration-plugin"
       ],
-      "plugins": {
-        
-      }
+      "plugins": {}
     },
     {
       "root": "pages/guide",
