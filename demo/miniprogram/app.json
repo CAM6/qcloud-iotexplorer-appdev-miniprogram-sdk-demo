@@ -16,7 +16,10 @@
     "pages/share/share-list/share-list",
     "pages/share/receive-share/receive-share",
     "pages/add-device/llsync/llsync",
-    "pages/device-panel/nixie-tube-ips-panel/rgb-control/rgb-control"
+    "pages/device-panel/nixie-tube-ips-panel/rgb-control/rgb-control",
+    "pages/device-panel/nixie-tube-ips-panel/photo-send/photo-send",
+    "pages/device-panel/nixie-tube-ips-panel/cropImage/cropImage",
+    "pages/device-panel/nixie-tube-ips-panel/select-theme/select-theme"
   ],
   "subPackages": [
     {

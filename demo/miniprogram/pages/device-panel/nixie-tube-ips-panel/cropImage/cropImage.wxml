@@ -1,0 +1,8 @@
+<!--pages/device-panel/nixie-tube-ips-panel/photo-manage/photo-manage.wxml-->
+<text class="hint">图片可以手势放大缩小</text>
+
+<image-cropper id="image-cropper" limit_move="{{true}}" disable_rotate="{{true}}" disable_width="{{true}}" disable_height="{{true}}" width="{{width}}" height="{{height}}" imgSrc="{{src}}" bindload="cropperload" bindimageload="loadimage" bindtapcut="clickcut"></image-cropper>
+
+<view class="crop-photos-container">
+  <van-button type="primary" size="large" custom-class="crop-photos-but" bind:click="submit"	>确定</van-button>
+</view>

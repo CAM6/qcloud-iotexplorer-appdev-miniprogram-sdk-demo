@@ -12,11 +12,11 @@
  background-color: #fff;
 }
 
-.container {
+.mycontainer {
   min-height: 100vh;
   background-color: #f9f9f9;
   margin-top: 30rpx;
-  border-radius: 25rpx;
+  /* border-radius: 25rpx; */
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-direction: column;
@@ -24,19 +24,19 @@
 }
 
 .custom-color-btn-group {
-  margin-top: 40rpx;
-  margin-bottom: 40rpx;
+  margin-top: 30rpx;
+  margin-bottom: 30rpx;
   display: flex;
   justify-content: center;
   flex-direction: row;
 }
  
 .custom-color-btn {
-  margin-left: 25rpx;
-  margin-right: 25rpx;
-  width: 30rpx !important;
-  height: 30rpx !important;
-  border-radius: 0rpx;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+  width: 45rpx !important;
+  height: 45rpx !important;
+  border-radius: 45rpx;
 }
 
 .card {
@@ -94,6 +94,35 @@
   background-color: white;
 }
 
-.custom-class	{
+/* .custom-class	{
   border-radius: 25rpx;
+} */
+
+.collapse-area {
+  background-color: #ffffff;
+  justify-content: center;
+  width: 88%;
+}
+
+.collapse {
+  /* width: 80% !important; */
+}
+
+.below-block {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.submit-but {
+  /* left: 70rpx; */
+  margin-top:50rpx;
+  width: 500rpx !important;
+  height: 75rpx !important;
+  border: 0px solid white;
+  border-radius: 25px !important;
+  color: white !important;
+  font-size: 14px !important;
+  background-color: #2372fe !important;
 }

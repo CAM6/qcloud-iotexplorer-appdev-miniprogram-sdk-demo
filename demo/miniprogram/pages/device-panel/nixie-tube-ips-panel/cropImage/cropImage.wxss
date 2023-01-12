@@ -1,0 +1,21 @@
+/* pages/device-panel/nixie-tube-ips-panel/photo-manage/photo-manage.wxss */
+
+.crop-photos-container {
+	position:fixed;
+  z-index: 10;
+  margin:auto;
+  left:0;
+  right:0;
+  bottom:40px;
+  width:70%;
+}
+
+.hint {
+  position: absolute;
+  top: 10rpx;
+  width: 100%;
+  font-size: 33rpx;
+  text-align: center;
+  color: white;
+  z-index: 10;
+}

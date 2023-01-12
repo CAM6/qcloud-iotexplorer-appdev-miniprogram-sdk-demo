@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "图片裁剪",
+  "disableScroll": true,
+  "navigationBarBackgroundColor": "#292929",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#292929",
+  "usingComponents": {
+      "image-cropper": "../../../../components/image-cropper/image-cropper",
+      "van-button": "@vant/weapp/button/index"
+  }
+}

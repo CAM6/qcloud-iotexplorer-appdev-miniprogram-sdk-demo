@@ -18,6 +18,13 @@ Page({
     speedValue: 50,
     modeValue: '1',
     switchValue: true,
+
+    activeNames: ['0'],
+    sleepSwitchValue: true,
+    currentDate: '00:00',
+    setTime: ['22:00', '7:00'],
+    setTimeId: 0,
+    timePopupShow: false,
   },
 
   /**
@@ -100,6 +107,7 @@ Page({
 
   },
   
+  //设置色彩
   onClickCustomColor(e) {
     var rgb=[0,0,0];
     if(/#(..)(..)(..)/g.test(this.data.customColorArray[e.target.id])){
@@ -114,6 +122,7 @@ Page({
       })
   },
 
+  //设置色彩
   onSlide: function(e) {
     let that = this;
     if (e.touches && ( e.type === 'touchend')) {
@@ -153,27 +162,72 @@ Page({
     }
   },
 
+  //设置亮度
   onBrightnessChange(event) {
     this.setData({
       brightnessValue: event.detail.value,
     });
   },
 
+  //设置速度
   onSpeedChange(event) {
     this.setData({
       speedValue: event.detail.value,
     });
   },
 
+  //设置模式
   onRadioChange(event) {
     const { name } = event.currentTarget.dataset;
     this.setData({
       modeValue: name,
     });
   },
+  
+  //设置开关
   onSwitchChange({ detail }) {
     // 需要手动对 checked 状态进行更新
     this.setData({ switchValue: detail });
   },
-  
+
+  //提交休眠数据
+  submitSleepData() {
+
+  },
+
+  onSleepSwitchChange({ detail }) {
+    // 需要手动对 checked 状态进行更新
+    this.setData({ sleepSwitchValue: detail });
+  },
+
+  onCollapseChange(event) {
+    console.log(event)
+    this.setData({
+      activeNames: event.detail,
+    });
+  },
+
+  onClilckSetTime(e) {
+    console.log(e.target.id)
+    this.data.setTimeId = e.target.id;
+    this.setData({
+      timePopupShow: true,
+      currentDate: this.data.setTime[this.data.setTimeId]
+    })
+  },
+
+  closeTimePopup: function () {
+    this.setData({
+      timePopupShow: false
+    })
+  },
+
+  onConfirmTimePicker: function (e) {
+    console.log(e)
+    var s = "setTime[" + this.data.setTimeId + "]"
+    this.setData({
+     [s]: e.detail
+    })
+    this.closeTimePopup()
+  },
 })

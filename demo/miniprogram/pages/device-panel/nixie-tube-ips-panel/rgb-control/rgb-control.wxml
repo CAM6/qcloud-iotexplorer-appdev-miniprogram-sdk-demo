@@ -1,13 +1,21 @@
 <!--pages/device-panel/nixie-tube-ips-panel/rgb-control/rgb-control.wxml-->
+<van-popup show="{{ timePopupShow }}" position="bottom" bind:close="closeFontPopup">
+  <van-datetime-picker
+      type="time"
+      value="{{ currentDate }}"
+      bind:cancel="closeTimePopup"
+      bind:confirm="onConfirmTimePicker"
+  />
+</van-popup>
 <view>
   <view class="color-picker-view">
-  <canvas id="colorPicker" style="width: {{raduis}}rpx;height: {{raduis}}rpx;" canvas-id="colorPicker" class="color-picker" />
-  <canvas canvas-id="colorPickerSlider" class="color-picker-slider" style="width: {{raduis}}rpx;height: {{raduis}}rpx;z-index:1;background:rgba(255,255,255,0);" bindtouchstart="onSlide" bindtouchmove="onSlide" bindtouchend="onSlide" />
+    <canvas id="colorPicker" style="width: {{raduis}}rpx;height: {{raduis}}rpx;" canvas-id="colorPicker" class="color-picker" />
+    <canvas canvas-id="colorPickerSlider" class="color-picker-slider" style="width: {{raduis}}rpx;height: {{raduis}}rpx;z-index:1;background:rgba(255,255,255,0);" bindtouchstart="onSlide" bindtouchmove="onSlide" bindtouchend="onSlide" />
   </view>
-    <view  class="container">
-      <view class="custom-color-btn-group">
+  <view  class="mycontainer">
+    <view class="custom-color-btn-group">
         <button wx:for="{{customColorArray}}" wx:key="index" class="custom-color-btn" type="default" style="background-color:{{item}};" id="{{index}}" bindtap="onClickCustomColor"></button>
-    </view>
+    </view> 
     <view class="card">
       <view class="slider-row">
         <view class="slider-text">亮度:</view>    
@@ -35,7 +43,20 @@
         <van-switch checked="{{ switchValue }}" active-color="#0019ff" bind:change="onSwitchChange" size="20px" custom-class="custom-class"/>
       </van-cell>
     </view>
-    
+    <view class="collapse-area">
+      <van-collapse value="{{ activeNames}}" bind:change="onCollapseChange" custom-class="collapse">
+        <van-collapse-item title="睡眠设置" name="1">
+          <van-cell title="开关:" title-class="cell-title-class"> 
+            <van-switch checked="{{ sleepSwitchValue }}" active-color="#0019ff" bind:change="onSleepSwitchChange" size="20px" custom-class="custom-class"/>
+          </van-cell>
+          <van-cell title="开始时间:" is-link value="{{setTime[0]}}" title-class="cell-title-class" custom-class="custom-class" id= "0" bind:click="onClilckSetTime"	></van-cell>
+          <van-cell title="结束时间:" is-link value="{{setTime[1]}}" title-class="cell-title-class" custom-class="custom-class" id= "1" bind:click="onClilckSetTime"	></van-cell>
+          <view class="below-block">
+            <van-button type="primary" size="large" custom-class="submit-but"  bind:click="submitSleepData">保存</van-button>
+          </view>
+        </van-collapse-item>
+      </van-collapse>
+    </view>
   </view>
 </view>
 

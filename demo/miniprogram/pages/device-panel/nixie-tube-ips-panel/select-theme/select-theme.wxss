@@ -1,0 +1,56 @@
+/* pages/device-panel/nixie-tube-ips-panel/select-theme/select-theme.wxss */
+.mycontainer {
+  min-height: 100vh;
+  border-radius: 25rpx;
+  /* display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  align-items: center; */
+}
+ 
+.card {
+  margin-top: 25rpx;
+  background-color: #ffffff;
+  justify-content: flex-start;
+  width: 100%;
+  /* border-style:solid; */
+}
+
+.title {
+  margin-left: 25rpx;
+}
+
+.title-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:space-between;
+  /* border-style: solid;
+  border-color: brown; */
+}
+
+.submit-but {
+  margin-right: 25rpx !important;
+  width: 110rpx !important;
+  font-size: 22rpx !important;
+  height: 50rpx !important;
+}
+
+.img-group {
+  width: 100%;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:space-between;
+  /* border-style: solid;
+  border-color: gold; */
+}
+
+.img {
+  width: 175rpx;
+  height: 312rpx;
+  margin-top: 25rpx;
+  margin-left: 25rpx;
+  border-radius: 25rpx;
+}
