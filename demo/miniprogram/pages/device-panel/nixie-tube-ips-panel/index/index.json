@@ -11,7 +11,11 @@
     "van-radio": "@vant/weapp/radio/index",
     "van-radio-group": "@vant/weapp/radio-group/index",
     "van-popup": "@vant/weapp/popup/index",
-    "van-picker": "@vant/weapp/picker/index"
+    "van-picker": "@vant/weapp/picker/index",
+    "van-overlay": "@vant/weapp/overlay/index",
+    "van-toast": "@vant/weapp/toast/index",
+    "van-dialog": "@vant/weapp/dialog/index"
   },
-  "navigationBarTitleText": ""
+  "navigationBarTitleText": "拟辉光管时钟",
+  "enablePullDownRefresh": false
 }

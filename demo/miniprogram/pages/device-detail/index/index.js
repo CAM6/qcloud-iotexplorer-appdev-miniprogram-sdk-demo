@@ -2,6 +2,8 @@
 const { getDevicesData } = require('../../../redux/actions');
 const { subscribeStore } = require('../../../libs/store-subscribe');
 const store = require('../../../redux/index');
+const promisify = require('../../../libs/wx-promisify');
+const { dangerColor } = require('../../../constants');
 const {
   deleteDeviceFromFamily,
   removeUserShareDevice,
@@ -162,7 +164,14 @@ Page({
       confirmText: '确定',
       showCancel: false,
       success: () => {
-        wx.navigateBack();
+        wx.redirectTo({
+          url: `/pages/index/index`,
+          success: (res) => {
+            if (error) {
+              res.eventChannel.emit('errorPassthrough', { error });
+            }
+          },
+        });
       },
     });
   },

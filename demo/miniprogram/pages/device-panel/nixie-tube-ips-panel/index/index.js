@@ -9,6 +9,8 @@ const { getErrorMsg } = require('../../../../libs/utillib');
 const promisify = require('../../../../libs/wx-promisify');
 const { subscribeStore } = require('../../../../libs/store-subscribe');
 const { dangerColor } = require('../../../../constants');
+import Toast from '@vant/weapp/toast/toast';
+import Dialog from '@vant/weapp/dialog/dialog';
 
 const getTemplateShownValue = (templateInfo, value) => {
   let shownValue;
@@ -18,7 +20,7 @@ const getTemplateShownValue = (templateInfo, value) => {
       shownValue = templateInfo.define.mapping[value];
       break;
     case 'enum':
-      shownValue = templateInfo.mappingList.findIndex(item => item.value === value);
+      shownValue = templateInfo.mappingIndex[templateInfo.define.mapping[value]].index;
       break;
     case 'int':
     case 'float':
@@ -41,22 +43,32 @@ Page({
     dataTemplate: {
       properties: [],
     },
-    deviceData: {},
+    // deviceData: {},
+
+    deviceData: {
+      properties: {},
+      value: '',
+      showValue: '',
+    },
+
     deviceStatus: 0,
     numberDialog: {
       visible: false,
       panelConfig: null,
     },
 
-    brightnessValue: 50,
-    speedValue: 50,
-    modeValue: '1',
-    switchValue: true,
+    // 睡眠开关
+    switchId: 'power_switch',
 
-    timeThemeValue: "主题0",
-    timeThemeIndex: 0,
-    timeThemeList: ['主题0','主题1','主题2','主题3','主题4','主题5'],
+    // 显示模式
+    modeId: '"display_mode"',
+
+    // 亮度
+    brightnessId: '"display_backlight"',
+
+    // 时间主题
     timeThemePopupShow: false,
+    timeThemeId: 'display_theme',
   },
 
   onLoad({ deviceId, isShareDevice = false }) {
@@ -92,10 +104,6 @@ Page({
     }
 
     const deviceData = {};
-    Object.keys(state.deviceData).forEach((id) => {
-      deviceData[id] = state.deviceData[id].Value;
-    });
-
     let dataTemplate = null;
     try {
       dataTemplate = JSON.parse(state.productInfo.DataTemplate);
@@ -107,28 +115,50 @@ Page({
     dataTemplate.properties.forEach((item) => {
       if (item.define.type === 'enum') {
         // eslint-disable-next-line no-param-reassign
+        item.mappingIndex = {};
         item.mappingList = [];
         Object.keys(item.define.mapping).forEach((key) => {
-          item.mappingList.push({ label: item.define.mapping[key], value: Number(key) });
+          item.mappingIndex[item.define.mapping[key]] = { index: item.mappingList.length,value: Number(key)};
+          item.mappingList.push(item.define.mapping[key])
         });
       }
 
+      deviceData[item.id] = {
+        properties: item,
+        value: state.deviceData[item.id].Value,
+        showValue : getTemplateShownValue(item, state.deviceData[item.id].Value),
+      }
       // eslint-disable-next-line no-param-reassign
-      item.value = getTemplateShownValue(item, deviceData[item.id]);
     });
-
+    
     this.setData({
-      dataTemplate,
       deviceData,
       deviceInfo: state.deviceInfo,
       deviceStatus: state.deviceStatus,
     });
+
+    if(this.data.deviceStatus === 0) {
+      console.log("deviceStatus")
+      Dialog.alert({
+        title: '设备已离线',
+        message: '请检查:\r\n 1、设备是否有电；\r\n 2、设备连接的路由器是否正常工作，网络通畅；\r\n 3、是否修改了路由器的名称或者密码，可以尝试重新连接；\r\n 4、设备是否与路由器距离过远，隔墙或有其他遮挡物。',
+        messageAlign: "left",
+        confirmButtonText: "返回首页",
+      }).then(() => {
+        // on close
+        wx.redirectTo({
+          url: `/pages/index/index`,
+          success: (res) => {
+            if (error) {
+              res.eventChannel.emit('errorPassthrough', { error });
+            }
+          },
+        });
+      });
+    }
   },
 
   onClickMoreBtn(e) {
-    console.log(this.data.deviceInfo);
-    console.log(this.data.dataTemplate);
-    console.log(this.data.deviceData);
     if(this.isShareDevice) {
       wx.navigateTo({
         url: `/pages/device-detail/index/index?deviceId=${this.data.deviceInfo.DeviceId}&isShareDevice=1`,
@@ -139,7 +169,6 @@ Page({
         url: `/pages/device-detail/index/index?deviceId=${this.data.deviceInfo.DeviceId}`,
       });
     }
- 
   },
 
   controlDeviceData(id, value) {
@@ -147,7 +176,12 @@ Page({
 
     this.debounceTimer = setTimeout(async () => {
       try {
+        Toast.loading({
+          message: '加载中...',
+          forbidClick: true,
+        });
         await controlDeviceData(this.data.deviceInfo, { id, value });
+        Toast.clear();
       } catch (err) {
         console.error('controlDeviceData fail', err);
         wx.showModal({
@@ -203,60 +237,49 @@ Page({
 
   //亮度变化
   onBrightnessChange(event) {
+    console.log(event.detail)
     this.setData({
-      brightnessValue: event.detail.value,
+      'deviceData.display_backlight.value': event.detail,
     });
-  },
-
-  //设置亮度
-  onBrightnessEnd() {
-    console.log("onBrightnessEnd")
-  },
-
-  //速度变化
-  onSpeedChange(event) {
-    this.setData({
-      speedValue: event.detail.value,
-    });
-  },
-
-  //设置速度
-  onSpeedEnd() {
-    console.log("onSpeedEnd")
+    this.controlDeviceData('display_backlight', this.data.deviceData.display_backlight.value);
   },
 
   //设置模式
   onRadioChange(event) {
-    const { name } = event.currentTarget.dataset;
+    const index = event.detail
     this.setData({
-      modeValue: name,
+      'deviceData.display_mode.showValue': index,
     });
+    var name = this.data.deviceData.display_mode.properties.mappingList[index]
+    this.controlDeviceData('display_mode', this.data.deviceData.display_mode.properties.mappingIndex[name].value);
   },
   
   //设置开关
   onSwitchChange({ detail }) {
     // 需要手动对 checked 状态进行更新
-    this.setData({ switchValue: detail });
+    this.setData({ 'deviceData.power_switch.value' : detail ? 1 : 0 });
+    console.log(this.data.deviceData.power_switch.value)
+    this.controlDeviceData('power_switch', this.data.deviceData.power_switch.value);
   },
 
   showTimeThemePopup: function () {
     this.setData({
       timeThemePopupShow: true
     })
+    console.log(this.data.deviceData)
   },
+
   closeTimeThemePopup: function () {
     this.setData({
       timeThemePopupShow: false
     })
   },
+
   onConfirmTimeThemePicker: function (e) {
-    const { index, value } = e.detail
-    console.log(e.detail)
-    console.log(this.data.timeThemeValue)
     this.setData({
-      timeThemeValue: value,
-      timeThemeIndex: e.detail.index
+      'deviceData.display_theme.showValue': e.detail.index,
     })
     this.closeTimeThemePopup()
+    this.controlDeviceData('display_theme', this.data.deviceData.display_theme.properties.mappingIndex[e.detail.value].value);
   },
 });
