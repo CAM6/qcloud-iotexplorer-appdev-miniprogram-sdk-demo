@@ -19,7 +19,8 @@
     "pages/device-panel/nixie-tube-ips-panel/rgb-control/rgb-control",
     "pages/device-panel/nixie-tube-ips-panel/photo-send/photo-send",
     "pages/device-panel/nixie-tube-ips-panel/cropImage/cropImage",
-    "pages/device-panel/nixie-tube-ips-panel/select-theme/select-theme"
+    "pages/device-panel/nixie-tube-ips-panel/select-theme/select-theme",
+    "pages/device-panel/nixie-tube-ips-panel/more-setting/more-setting"
   ],
   "subPackages": [
     {

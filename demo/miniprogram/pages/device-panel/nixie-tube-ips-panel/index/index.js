@@ -47,6 +47,16 @@ Page({
       visible: false,
       panelConfig: null,
     },
+
+    brightnessValue: 50,
+    speedValue: 50,
+    modeValue: '1',
+    switchValue: true,
+
+    timeThemeValue: "主题0",
+    timeThemeIndex: 0,
+    timeThemeList: ['主题0','主题1','主题2','主题3','主题4','主题5'],
+    timeThemePopupShow: false,
   },
 
   onLoad({ deviceId, isShareDevice = false }) {
@@ -190,4 +200,63 @@ Page({
     this.controlDeviceData(item.id, item.mappingList[value].value);
   },
   
+
+  //亮度变化
+  onBrightnessChange(event) {
+    this.setData({
+      brightnessValue: event.detail.value,
+    });
+  },
+
+  //设置亮度
+  onBrightnessEnd() {
+    console.log("onBrightnessEnd")
+  },
+
+  //速度变化
+  onSpeedChange(event) {
+    this.setData({
+      speedValue: event.detail.value,
+    });
+  },
+
+  //设置速度
+  onSpeedEnd() {
+    console.log("onSpeedEnd")
+  },
+
+  //设置模式
+  onRadioChange(event) {
+    const { name } = event.currentTarget.dataset;
+    this.setData({
+      modeValue: name,
+    });
+  },
+  
+  //设置开关
+  onSwitchChange({ detail }) {
+    // 需要手动对 checked 状态进行更新
+    this.setData({ switchValue: detail });
+  },
+
+  showTimeThemePopup: function () {
+    this.setData({
+      timeThemePopupShow: true
+    })
+  },
+  closeTimeThemePopup: function () {
+    this.setData({
+      timeThemePopupShow: false
+    })
+  },
+  onConfirmTimeThemePicker: function (e) {
+    const { index, value } = e.detail
+    console.log(e.detail)
+    console.log(this.data.timeThemeValue)
+    this.setData({
+      timeThemeValue: value,
+      timeThemeIndex: e.detail.index
+    })
+    this.closeTimeThemePopup()
+  },
 });

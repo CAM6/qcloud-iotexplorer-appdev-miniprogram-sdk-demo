@@ -162,18 +162,28 @@ Page({
     }
   },
 
-  //设置亮度
+  //亮度变化
   onBrightnessChange(event) {
     this.setData({
       brightnessValue: event.detail.value,
     });
   },
 
-  //设置速度
+  //设置亮度
+  onBrightnessEnd() {
+    console.log("onBrightnessEnd")
+  },
+
+  //速度变化
   onSpeedChange(event) {
     this.setData({
       speedValue: event.detail.value,
     });
+  },
+
+  //设置速度
+  onSpeedEnd() {
+    console.log("onSpeedEnd")
   },
 
   //设置模式

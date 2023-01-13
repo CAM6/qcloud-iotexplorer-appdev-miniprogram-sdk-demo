@@ -1,0 +1,46 @@
+<!--pages/device-panel/nixie-tube-ips-panel/more-setting/more-setting.wxml-->
+
+<!-- <van-popup show="{{ timePopupShow }}" position="bottom" bind:close="closeTimePopup">
+  <van-datetime-picker
+      type="datetime"
+      value="{{ currentDate }}"
+      bind:cancel="closeTimePopup"
+      bind:confirm="onConfirmTimePicker"
+  />
+</van-popup> -->
+<van-popup show="{{ timeZonePopupShow }}" position="bottom" bind:close="closeTimeZonePopup">
+  <van-picker
+    default-index="{{timeZoneindex}}"
+    columns="{{timeZoneList}}"
+    show-toolbar
+    bind:cancel="closeTimeZonePopup"
+    bind:confirm="onConfirmTimeZonePicker"
+  />
+</van-popup>
+
+
+<view  class="mycontainer">
+  <view class="title-class">
+    <text>时间设置</text>
+  </view>
+  <view class="card">
+    <view class="one-class">
+      <van-cell title="12小时制:" title-class="cell-title-class" custom-class="custom-class"> 
+        <van-switch checked="{{ switch12HValue }}" active-color="#0019ff" bind:change="onSwitch12HChange" size="20px" custom-class="custom-class"/>
+      </van-cell>
+    </view>
+    <view class="one-class">
+      <van-cell title="网络自动同步时间:" title-class="cell-title-class" custom-class="custom-class"> 
+        <van-switch checked="{{ switchNTPValue }}" active-color="#0019ff" bind:change="onSwitchNTPChange" size="20px" custom-class="custom-class"/>
+      </van-cell>
+    </view>
+    <view class="one-class">
+      <van-cell title="时区设置:" is-link value="{{timeZoneValue}}"  id= "timeZone" bind:click="onOperationClick"	></van-cell>
+    </view>
+    <view class="one-class">
+      <van-cell title="设置时间:" is-link value="{{timeValue}}" id= "timeSet" bind:click="onOperationClick"	></van-cell>
+    </view>
+  </view>
+</view>
+
+

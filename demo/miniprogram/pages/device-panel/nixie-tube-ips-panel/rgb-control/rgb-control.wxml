@@ -19,14 +19,14 @@
     <view class="card">
       <view class="slider-row">
         <view class="slider-text">亮度:</view>    
-        <van-slider value="{{brightnessValue}}" bar-height="4px" active-color="#001aff" use-button-slot bind:drag="onBrightnessChange" custom-class="custom-slider">
+        <van-slider value="{{brightnessValue}}" bar-height="4px" active-color="#001aff" use-button-slot bind:drag-end="onBrightnessEnd" bind:drag="onBrightnessChange" custom-class="custom-slider">
           <view class="custom-button" slot="button" style="background-color: #001aff;">{{brightnessValue}}</view>
         </van-slider>
       </view>
       <view class="slider-row">
         <view class="slider-text">速度:</view>    
-        <van-slider value="{{brightnessValue}}" bar-height="4px" active-color="#001aff" use-button-slot bind:drag="onBrightnessChange" custom-class="custom-slider">
-          <view class="custom-button" slot="button" style="background-color: #001aff;">{{brightnessValue}}</view>
+        <van-slider value="{{speedValue}}" bar-height="4px" active-color="#001aff" use-button-slot bind:drag-end="onSpeedEnd" bind:drag="onSpeedChange" custom-class="custom-slider">
+          <view class="custom-button" slot="button" style="background-color: #001aff;">{{speedValue}}</view>
         </van-slider>
       </view>
       <view class="custom-radio-group">
@@ -49,8 +49,10 @@
           <van-cell title="开关:" title-class="cell-title-class"> 
             <van-switch checked="{{ sleepSwitchValue }}" active-color="#0019ff" bind:change="onSleepSwitchChange" size="20px" custom-class="custom-class"/>
           </van-cell>
-          <van-cell title="开始时间:" is-link value="{{setTime[0]}}" title-class="cell-title-class" custom-class="custom-class" id= "0" bind:click="onClilckSetTime"	></van-cell>
-          <van-cell title="结束时间:" is-link value="{{setTime[1]}}" title-class="cell-title-class" custom-class="custom-class" id= "1" bind:click="onClilckSetTime"	></van-cell>
+          <block wx:if="{{sleepSwitchValue}}">
+            <van-cell title="开始时间:" is-link value="{{setTime[0]}}" title-class="cell-title-class" custom-class="custom-class" id= "0" bind:click="onClilckSetTime"	></van-cell>
+            <van-cell title="结束时间:" is-link value="{{setTime[1]}}" title-class="cell-title-class" custom-class="custom-class" id= "1" bind:click="onClilckSetTime"	></van-cell>
+          </block>
           <view class="below-block">
             <van-button type="primary" size="large" custom-class="submit-but"  bind:click="submitSleepData">保存</van-button>
           </view>
