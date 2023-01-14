@@ -3,40 +3,70 @@
 const app = getApp();
 
 const { controlDeviceData, getDevicesData } = require('../../../../redux/actions');
-const { getErrorMsg, getTemplateShownValue } = require('../../../../libs/utillib');
+const { getErrorMsg, getTemplateShownValue, formatDate } = require('../../../../libs/utillib');
 const { subscribeStore } = require('../../../../libs/store-subscribe');
 import Toast from '@vant/weapp/toast/toast';
 import Dialog from '@vant/weapp/dialog/dialog';
 
 Page({
-
+  
   /**
    * 页面的初始数据
    */
   data: {
-    switch12HValue: false,
-    switchNTPValue: true,
-    
+    deviceInfo: {},
+    deviceData: {
+      properties: {},
+      value: '',
+      showValue: '',
+    },
+    deviceStatus: 0,
+
+    // 12小时制开关
+    switch12HId: 'clock_is12h',
+
+    //是否开启网络时间
+    switchNTPId: 'clock_isntp',
+
     //时间设置
+    timeId: 'clock_time',
     timeValue: "",
     timeStamp: 0,
     timePopupShow: false,
 
     //时区设置
+    timeZoneId: 'clock_utc',
     timeZoneList: [],
     timeZoneindex: 0,
-    timeZoneValue: "UTC+8",
     timeZonePopupShow: false,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
+  onLoad({ deviceId }) {
+    this.setData({ ipx: app.globalData.isIpx });
+    // this.isShareDevice = isShareDevice;
+    this.deviceId = deviceId;
+    const productId = deviceId.split('/', 2)[0];
 
-    var date = new Date(); //时间对象
-    var str = date.getTime(); //转换成时间戳
-      
+    this.unsubscribeAll = subscribeStore([
+      {
+        selector: state => ({
+          productInfo: state.productInfoMap[productId],
+          deviceData: state.deviceDataMap[deviceId],
+          deviceInfo: (state.deviceList)
+            .find(item => item.DeviceId === deviceId),
+          deviceStatus: state.deviceStatusMap[deviceId],
+        }),
+        onChange: this.prepareData.bind(this),
+      },
+    ]);
+
+    this.initTimeZone()
+  },
+
+  initTimeZone() {
     var list = []
     for(var i = 12; i > 0; i--) {
       list.push("UTC-" + i)
@@ -46,11 +76,98 @@ Page({
     }
 
     this.setData({
-      timeValue: this.filterTime(str),
       timeZoneList: list,
-      timeZoneindex: this.getTimeZoneIndex(list, this.data.timeZoneValue),
     })     
-    console.log(this.data)
+  },
+
+  prepareData(state, oldState) {
+    const dataKeys = ['productInfo', 'deviceData', 'deviceInfo', 'deviceStatus'];
+    // 数据没有变化时，不重新 setData
+    if (oldState && dataKeys.every(key => state[key] === oldState[key])) {
+      return;
+    }
+
+    // 数据缺失检查
+    if (!dataKeys.every(key => state[key] !== undefined)) {
+      return;
+    }
+
+    const deviceData = {};
+    let dataTemplate = null;
+    try {
+      dataTemplate = JSON.parse(state.productInfo.DataTemplate);
+    } catch (err) {
+      console.error('panel prepareData: parse json fail', err);
+      return;
+    }
+
+    dataTemplate.properties.forEach((item) => {
+      if (item.define.type === 'enum') {
+        // eslint-disable-next-line no-param-reassign
+        item.mappingIndex = {};
+        item.mappingList = [];
+        Object.keys(item.define.mapping).forEach((key) => {
+          item.mappingIndex[item.define.mapping[key]] = { index: item.mappingList.length,value: Number(key)};
+          item.mappingList.push(item.define.mapping[key])
+        });
+      }
+
+      deviceData[item.id] = {
+        properties: item,
+        value: state.deviceData[item.id].Value,
+        showValue : getTemplateShownValue(item, state.deviceData[item.id].Value),
+      }
+      // eslint-disable-next-line no-param-reassign
+    });
+    
+    this.setData({
+      deviceData,
+      deviceInfo: state.deviceInfo,
+      deviceStatus: state.deviceStatus,
+    });
+    
+    if(this.data.deviceStatus === 0) {
+      console.log("deviceStatus")
+      Dialog.alert({
+        title: '设备已离线',
+        message: '请检查:\r\n 1、设备是否有电；\r\n 2、设备连接的路由器是否正常工作，网络通畅；\r\n 3、是否修改了路由器的名称或者密码，可以尝试重新连接；\r\n 4、设备是否与路由器距离过远，隔墙或有其他遮挡物。',
+        messageAlign: "left",
+        confirmButtonText: "返回首页",
+      }).then(() => {
+        // on close
+        wx.redirectTo({
+          url: `/pages/index/index`,
+          success: (res) => {
+            if (error) {
+              res.eventChannel.emit('errorPassthrough', { error });
+            }
+          },
+        });
+      });
+    }
+  },
+
+  controlDeviceData(id, value) {
+    clearTimeout(this.debounceTimer);
+
+    this.debounceTimer = setTimeout(async () => {
+      try {
+        Toast.loading({
+          message: '加载中...',
+          forbidClick: true,
+        });
+        await controlDeviceData(this.data.deviceInfo, { id, value });
+        Toast.clear();
+      } catch (err) {
+        console.error('controlDeviceData fail', err);
+        wx.showModal({
+          title: '控制设备属性失败',
+          content: getErrorMsg(err),
+          confirmText: '我知道了',
+          showCancel: false,
+        });
+      }
+    }, 250);
   },
 
   /**
@@ -126,26 +243,31 @@ Page({
   //设置12H开关
   onSwitch12HChange({ detail }) {
     // 需要手动对 checked 状态进行更新
-    this.setData({ switch12HValue: detail });
+    this.setData({ 'deviceData.clock_is12h.value' : detail ? 1 : 0 });
+    this.controlDeviceData('clock_is12h', this.data.deviceData.clock_is12h.value);
   },
 
   //设置NTP开关
   onSwitchNTPChange({ detail }) {
     // 需要手动对 checked 状态进行更新
-    this.setData({ switchNTPValue: detail });
+    this.setData({ 'deviceData.clock_isntp.value' : detail ? 1 : 0 });
+    this.controlDeviceData('clock_isntp', this.data.deviceData.clock_isntp.value);
   },
 
   onOperationClick(e) {
     switch (e.target.id) {
       case 'timeZone':
         this.setData({
+          timeZoneindex: this.getTimeZoneIndex(this.data.timeZoneList, this.data.deviceData.clock_utc.value),
           timeZonePopupShow: true,
         })
-        
         break;
       case 'timeSet':
+        var date = new Date(); //时间对象
+        var str = date.getTime(); //转换成时间戳
         this.setData({
           timePopupShow: true,
+          timeStamp: str,
         })
         break;
     }
@@ -164,6 +286,7 @@ Page({
       timeStamp: e.detail,
     })
     this.closeTimePopup()
+    this.controlDeviceData('clock_time', parseInt(this.data.timeStamp / 1000));
   },
 
   closeTimeZonePopup: function () {
@@ -176,8 +299,9 @@ Page({
   onConfirmTimeZonePicker: function (e) {
     this.setData({
       timeZoneindex: e.detail.index,
-      timeZoneValue: e.detail.value
+      'deviceData.clock_utc.value': e.detail.value
     })
     this.closeTimeZonePopup()
+    this.controlDeviceData('clock_utc', this.data.deviceData.clock_utc.value);
   }
 })

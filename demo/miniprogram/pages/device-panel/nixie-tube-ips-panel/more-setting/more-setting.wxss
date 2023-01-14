@@ -1,6 +1,5 @@
 /* pages/device-panel/nixie-tube-ips-panel/more-setting/more-setting.wxss */
 
-
 .mycontainer {
   min-height: 100vh;
   background-color: #f9f9f9;
@@ -14,6 +13,8 @@
 
 .title-class {
   padding-top: 30rpx;
+  padding-bottom: 10rpx;
+  padding-left: 60rpx;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
