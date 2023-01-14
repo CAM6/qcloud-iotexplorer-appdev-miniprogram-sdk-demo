@@ -97,7 +97,6 @@ Page({
     });
 
     if(this.data.deviceStatus === 0) {
-      console.log("deviceStatus")
       Dialog.alert({
         title: '设备已离线',
         message: '请检查:\r\n 1、设备是否有电；\r\n 2、设备连接的路由器是否正常工作，网络通畅；\r\n 3、是否修改了路由器的名称或者密码，可以尝试重新连接；\r\n 4、设备是否与路由器距离过远，隔墙或有其他遮挡物。',
@@ -153,9 +152,15 @@ Page({
     }, 250);
   },
 
+  //亮度拖动
+  onBrightnessDrag(event) {
+    this.setData({
+      'deviceData.display_backlight.value': event.detail.value,
+    });
+  },
+
   //亮度变化
   onBrightnessChange(event) {
-    console.log(event.detail)
     this.setData({
       'deviceData.display_backlight.value': event.detail,
     });
@@ -176,7 +181,6 @@ Page({
   onSwitchChange({ detail }) {
     // 需要手动对 checked 状态进行更新
     this.setData({ 'deviceData.power_switch.value' : detail ? 1 : 0 });
-    console.log(this.data.deviceData.power_switch.value)
     this.controlDeviceData('power_switch', this.data.deviceData.power_switch.value);
   },
 

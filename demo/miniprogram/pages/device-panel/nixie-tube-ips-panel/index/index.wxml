@@ -80,6 +80,7 @@
           bar-height="4px" 
           active-color="#001aff" 
           use-button-slot 
+          bind:drag="onBrightnessDrag"
           bind:change="onBrightnessChange" 
           custom-class="custom-slider"
         >
@@ -103,6 +104,6 @@
       <van-cell is-link title="下载主题" id= "select-theme" bind:click="onClickCell" />
       <van-cell is-link title="更多设置" id= "more-setting" bind:click="onClickCell" />
     </view>
-    
+
   </view>
 </page-wrapper>

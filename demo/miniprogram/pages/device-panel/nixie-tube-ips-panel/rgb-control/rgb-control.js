@@ -1,5 +1,13 @@
 // pages/device-panel/nixie-tube-ips-panel/rgb-control/rgb-control.js
+const app = getApp();
+
 const util = require('../../../../utils/util.js')
+const { controlDeviceData, getDevicesData } = require('../../../../redux/actions');
+const { getErrorMsg, getTemplateShownValue} = require('../../../../libs/utillib');
+const { subscribeStore } = require('../../../../libs/store-subscribe');
+import Toast from '@vant/weapp/toast/toast';
+import Dialog from '@vant/weapp/dialog/dialog';
+
 let colorPickerCtx = {};
 let sliderCtx = {};
 let _this = null
@@ -10,15 +18,40 @@ Page({
    * 页面的初始数据
    */
   data: {
+    deviceInfo: {},
+    deviceData: {
+      properties: {},
+      value: '',
+      showValue: '',
+    },
+    deviceStatus: 0,
+
+    // 色盘
     pickColor: '#ff0000',
     raduis: 550, //这里最大为750rpx铺满屏幕
     valueWidthOrHerght: 0,
     customColorArray: ["#fffe55", "#ea3225", "#ff00f8", "#001bf5", "#76fafd", "#76fa4c"],
-    brightnessValue: 50,
-    speedValue: 50,
-    modeValue: '1',
-    switchValue: true,
 
+    // 颜色
+    brightnessId: 'rgb_hue',
+
+    // 亮度
+    brightnessValue: 50,
+    brightnessId: 'rgb_brightness',
+
+    // 速度
+    speedValue: 50,
+    speedId: 'rgb_speed',
+
+    // 模式
+    modeValue: '1',
+    modeId: 'rgb_mode',
+
+    // 开关
+    switchValue: true,
+    switchId: 'rgb_switch',
+
+    // 睡眠模式
     activeNames: ['0'],
     sleepSwitchValue: true,
     currentDate: '00:00',
@@ -30,7 +63,25 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
+  onLoad({ deviceId }) {
+    this.setData({ ipx: app.globalData.isIpx });
+    // this.isShareDevice = isShareDevice;
+    this.deviceId = deviceId;
+    const productId = deviceId.split('/', 2)[0];
+
+    this.unsubscribeAll = subscribeStore([
+      {
+        selector: state => ({
+          productInfo: state.productInfoMap[productId],
+          deviceData: state.deviceDataMap[deviceId],
+          deviceInfo: (state.deviceList)
+            .find(item => item.DeviceId === deviceId),
+          deviceStatus: state.deviceStatusMap[deviceId],
+        }),
+        onChange: this.prepareData.bind(this),
+      },
+    ]);
+
     _this = this
     colorPickerCtx = wx.createCanvasContext('colorPicker');
     colorPickerCtx.fillStyle = 'rgb(255, 255, 255)';
@@ -56,6 +107,96 @@ Page({
       //   })
       // })
     }).exec();
+  },
+
+  prepareData(state, oldState) {
+    const dataKeys = ['productInfo', 'deviceData', 'deviceInfo', 'deviceStatus'];
+    // 数据没有变化时，不重新 setData
+    if (oldState && dataKeys.every(key => state[key] === oldState[key])) {
+      return;
+    }
+
+    // 数据缺失检查
+    if (!dataKeys.every(key => state[key] !== undefined)) {
+      return;
+    }
+
+    const deviceData = {};
+    let dataTemplate = null;
+    try {
+      dataTemplate = JSON.parse(state.productInfo.DataTemplate);
+    } catch (err) {
+      console.error('panel prepareData: parse json fail', err);
+      return;
+    }
+
+    dataTemplate.properties.forEach((item) => {
+      if (item.define.type === 'enum') {
+        // eslint-disable-next-line no-param-reassign
+        item.mappingIndex = {};
+        item.mappingList = [];
+        Object.keys(item.define.mapping).forEach((key) => {
+          item.mappingIndex[item.define.mapping[key]] = { index: item.mappingList.length,value: Number(key)};
+          item.mappingList.push(item.define.mapping[key])
+        });
+      }
+
+      deviceData[item.id] = {
+        properties: item,
+        value: state.deviceData[item.id].Value,
+        showValue : getTemplateShownValue(item, state.deviceData[item.id].Value),
+      }
+      // eslint-disable-next-line no-param-reassign
+    });
+    
+    this.setData({
+      deviceData,
+      deviceInfo: state.deviceInfo,
+      deviceStatus: state.deviceStatus,
+    });
+
+    if(this.data.deviceStatus === 0) {
+      console.log("deviceStatus")
+      Dialog.alert({
+        title: '设备已离线',
+        message: '请检查:\r\n 1、设备是否有电；\r\n 2、设备连接的路由器是否正常工作，网络通畅；\r\n 3、是否修改了路由器的名称或者密码，可以尝试重新连接；\r\n 4、设备是否与路由器距离过远，隔墙或有其他遮挡物。',
+        messageAlign: "left",
+        confirmButtonText: "返回首页",
+      }).then(() => {
+        // on close
+        wx.redirectTo({
+          url: `/pages/index/index`,
+          success: (res) => {
+            if (error) {
+              res.eventChannel.emit('errorPassthrough', { error });
+            }
+          },
+        });
+      });
+    }
+  },
+
+  controlDeviceData(id, value) {
+    clearTimeout(this.debounceTimer);
+
+    this.debounceTimer = setTimeout(async () => {
+      try {
+        Toast.loading({
+          message: '加载中...',
+          forbidClick: true,
+        });
+        await controlDeviceData(this.data.deviceInfo, { id, value });
+        Toast.clear();
+      } catch (err) {
+        console.error('controlDeviceData fail', err);
+        wx.showModal({
+          title: '控制设备属性失败',
+          content: getErrorMsg(err),
+          confirmText: '我知道了',
+          showCancel: false,
+        });
+      }
+    }, 250);
   },
 
   /**
@@ -115,11 +256,14 @@ Page({
     };
 
     let h = util.rgb2hsl(rgb[0], rgb[1], rgb[2]);
+    var hue = parseInt(h[0] * 360);
     util.drawSlider(sliderCtx, _this.data.valueWidthOrHerght, _this.data.valueWidthOrHerght, h[0]);
 
     this.setData({
-      pickColor: util.colorRGBtoHex(rgb[0], rgb[1], rgb[2])
-      })
+      pickColor: util.colorRGBtoHex(rgb[0], rgb[1], rgb[2]),
+      'deviceData.rgb_hue.value': hue,
+    })
+    this.controlDeviceData('rgb_hue', this.data.deviceData.rgb_hue.value);
   },
 
   //设置色彩
@@ -145,7 +289,8 @@ Page({
           let h = util.rgb2hsl(res.data[0], res.data[1], res.data[2]);
           console.log(h);
           _this.setData({
-              pickColor: util.colorRGBtoHex(res.data[0], res.data[1], res.data[2])
+              pickColor: util.colorRGBtoHex(res.data[0], res.data[1], res.data[2]),
+              'this.data.deviceData.rgb_brightness.value': parseInt(h[0] * 360),
             })
           // 判断是否在圈内
           if (h[1] !== 1.0) {
@@ -154,6 +299,14 @@ Page({
           util.drawSlider(sliderCtx, _this.data.valueWidthOrHerght, _this.data.valueWidthOrHerght, h[0]);
           // 设置设备
           if (e.type !== 'touchEnd') {
+
+            var hue = parseInt(h[0] * 360);
+            if(hue != 0) {
+              _this.setData({
+                'deviceData.rgb_hue.value': hue,
+              })
+              _this.controlDeviceData('rgb_hue', _this.data.deviceData.rgb_hue.value);
+            }
             // 触摸结束才设置设备属性
             return;
           }
@@ -162,42 +315,52 @@ Page({
     }
   },
 
-  //亮度变化
-  onBrightnessChange(event) {
+  //亮度拖动
+  onBrightnessDrag(event) {
     this.setData({
-      brightnessValue: event.detail.value,
+      'deviceData.rgb_brightness.value': event.detail.value,
     });
   },
 
-  //设置亮度
-  onBrightnessEnd() {
-    console.log("onBrightnessEnd")
+  //亮度变化
+  onBrightnessChange(event) {
+    this.setData({
+      'deviceData.rgb_brightness.value': event.detail,
+    });
+    this.controlDeviceData('rgb_brightness', this.data.deviceData.rgb_brightness.value);
+  },
+
+  //速度拖动
+  onSpeedDrag(event) {
+    this.setData({
+      'deviceData.rgb_speed.value': event.detail.value,
+    });
   },
 
   //速度变化
   onSpeedChange(event) {
     this.setData({
-      speedValue: event.detail.value,
+      'deviceData.rgb_speed.value': event.detail,
     });
-  },
-
-  //设置速度
-  onSpeedEnd() {
-    console.log("onSpeedEnd")
+    this.controlDeviceData('rgb_speed', this.data.deviceData.rgb_speed.value);
   },
 
   //设置模式
   onRadioChange(event) {
-    const { name } = event.currentTarget.dataset;
+    const index = event.detail;
     this.setData({
-      modeValue: name,
+      'deviceData.rgb_mode.showValue': index,
     });
+    var name = this.data.deviceData.rgb_mode.properties.mappingList[index]
+    console.log(name)
+    this.controlDeviceData('rgb_mode', this.data.deviceData.rgb_mode.properties.mappingIndex[name].value);
   },
   
   //设置开关
   onSwitchChange({ detail }) {
     // 需要手动对 checked 状态进行更新
-    this.setData({ switchValue: detail });
+    this.setData({ 'deviceData.rgb_switch.value' : detail ? 1 : 0 });
+    this.controlDeviceData('rgb_switch', this.data.deviceData.rgb_switch.value);
   },
 
   //提交休眠数据

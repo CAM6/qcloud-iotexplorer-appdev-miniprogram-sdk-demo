@@ -61,10 +61,10 @@
     </view>
 
     <view class="one-class">
-      <van-cell title="时区设置:" is-link value="{{ deviceData.clock_utc.value }}"  id= "timeZone" bind:click="onOperationClick"	></van-cell>
+      <van-cell title="{{ deviceData.clock_utc.properties.name === undefined ? '时区设置' :  deviceData.clock_utc.properties.name }}:" is-link value="{{ deviceData.clock_utc.value }}"  id= "timeZone" bind:click="onOperationClick"	></van-cell>
     </view>
     <view class="one-class">
-      <van-cell title="设置时间:" is-link value="{{ timeValue }}" id= "timeSet" bind:click="onOperationClick"	></van-cell>
+      <van-cell title="{{ deviceData.clock_time.properties.name === undefined ? '设置时间' :  deviceData.clock_time.properties.name }}:" is-link value="{{ timeValue }}" id= "timeSet" bind:click="onOperationClick"	></van-cell>
     </view>
   </view>
 </view>
