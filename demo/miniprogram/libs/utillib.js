@@ -130,6 +130,7 @@ module.exports.getTemplateShownValue = (templateInfo, value) => {
       shownValue = templateInfo.mappingIndex[templateInfo.define.mapping[value]].index;
       break;
     case 'int':
+    case 'struct':
     case 'float':
       if (typeof value === 'undefined') {
         shownValue = templateInfo.define.start;

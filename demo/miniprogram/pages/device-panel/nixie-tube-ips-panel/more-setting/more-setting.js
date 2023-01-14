@@ -112,10 +112,11 @@ Page({
         });
       }
 
+      var value = state.deviceData[item.id] === undefined ? 0 : state.deviceData[item.id].Value;
       deviceData[item.id] = {
         properties: item,
-        value: state.deviceData[item.id].Value,
-        showValue : getTemplateShownValue(item, state.deviceData[item.id].Value),
+        value,
+        showValue : getTemplateShownValue(item, value),
       }
       // eslint-disable-next-line no-param-reassign
     });

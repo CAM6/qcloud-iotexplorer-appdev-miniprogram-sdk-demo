@@ -129,6 +129,8 @@ Page({
       console.error('panel prepareData: parse json fail', err);
       return;
     }
+    
+    console.log(state.deviceData)
 
     dataTemplate.properties.forEach((item) => {
       if (item.define.type === 'enum') {
@@ -141,10 +143,11 @@ Page({
         });
       }
 
+      var value = state.deviceData[item.id] === undefined ? 0 : state.deviceData[item.id].Value;
       deviceData[item.id] = {
         properties: item,
-        value: state.deviceData[item.id].Value,
-        showValue : getTemplateShownValue(item, state.deviceData[item.id].Value),
+        value,
+        showValue : getTemplateShownValue(item, value),
       }
       // eslint-disable-next-line no-param-reassign
     });
@@ -156,7 +159,6 @@ Page({
     });
 
     if(this.data.deviceStatus === 0) {
-      console.log("deviceStatus")
       Dialog.alert({
         title: '设备已离线',
         message: '请检查:\r\n 1、设备是否有电；\r\n 2、设备连接的路由器是否正常工作，网络通畅；\r\n 3、是否修改了路由器的名称或者密码，可以尝试重新连接；\r\n 4、设备是否与路由器距离过远，隔墙或有其他遮挡物。',
@@ -352,7 +354,6 @@ Page({
       'deviceData.rgb_mode.showValue': index,
     });
     var name = this.data.deviceData.rgb_mode.properties.mappingList[index]
-    console.log(name)
     this.controlDeviceData('rgb_mode', this.data.deviceData.rgb_mode.properties.mappingIndex[name].value);
   },
   
