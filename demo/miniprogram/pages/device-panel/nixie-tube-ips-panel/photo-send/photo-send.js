@@ -2,7 +2,11 @@
 
 import Toast from '@vant/weapp/toast/toast';
 
-const app = getApp()
+const app = getApp();
+
+const { callDeviceActionSync } = require('../../../../models');
+const { getErrorMsg, getTemplateShownValue, formatDate } = require('../../../../libs/utillib');
+const { subscribeStore } = require('../../../../libs/store-subscribe');
 
 Page({
 
@@ -10,8 +14,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    background: ['', '', '','', '', ''],
-    currentSwiper: 0
+    deviceInfo: {},
+    
+    background: ['https://736d-smart-device-9gxm2t0gcfb27c2f-1306095197.tcb.qcloud.la/tmp/photo/1673681298676.jpg?sign=ab8205d1666f5f11557774d90f4a33b3&t=1673683243', '', 'https://736d-smart-device-9gxm2t0gcfb27c2f-1306095197.tcb.qcloud.la/tmp/photo/0%20(2).jpg?sign=47fba40e65a37fdc838b437513e1ef87&t=1673683342','', '', ''],
+    currentSwiper: 0,
   },
 
   canvasArry: [],
@@ -20,10 +26,61 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
+  onLoad({deviceId, isShareDevice = false }) {
+    this.isShareDevice = isShareDevice;
+    this.deviceId = deviceId;
+    this.unsubscribeAll = subscribeStore([
+      {
+        selector: state => ({
+          deviceInfo: (isShareDevice ? state.shareDeviceList : state.deviceList)
+            .find(item => item.DeviceId === deviceId),
+        }),
+        onChange: this.prepareData.bind(this),
+      },
+    ]);
+
     for (var property in this.data.background) {
       this.canvasInit(property);
     }
+  },
+
+  prepareData(state, oldState) {
+    const dataKeys = [ 'deviceInfo' ];
+    // 数据没有变化时，不重新 setData
+    if (oldState && dataKeys.every(key => state[key] === oldState[key])) {
+      return;
+    }
+    
+    this.setData({ deviceInfo: state.deviceInfo });
+    console.log(this.data.deviceInfo);
+  },
+
+  deviceActionSync: function(actionId, inputParams) {
+    clearTimeout(this.debounceTimer);
+    console.log('deviceActionSync')
+    console.log(actionId)
+    console.log(inputParams)
+    // this.debounceTimer = setTimeout(async () => {
+      try {
+        Toast.loading({
+          message: '设备下载中...',
+          forbidClick: true,
+        });
+        callDeviceActionSync(this.data.deviceInfo, actionId, inputParams).then( x => {
+           console.log(x.Status, x.OutputParams) 
+           Toast.clear();
+        });
+
+      } catch (err) {
+        console.error('callDeviceActionSync fail', err);
+        wx.showModal({
+          title: '控制设备失败',
+          content: getErrorMsg(err),
+          confirmText: '我知道了',
+          showCancel: false,
+        });
+      }
+    // }, 60000);
   },
 
   /**
@@ -114,7 +171,7 @@ Page({
         console.log(res.tempFiles[0].size);
         wx.navigateTo({
           url: `/pages/device-panel/nixie-tube-ips-panel/cropImage/cropImage?tempFilePath=${res.tempFiles[0].tempFilePath}&currentSwiper=${self.data.currentSwiper}`
-      })
+        })
       },
       fail(res) {
         console.log(res);
@@ -184,6 +241,7 @@ Page({
   },
 
   submit() {
+    var that = this
 
     if( this.data.background[this.data.currentSwiper].length == 0 ) {
       console.log(this.data.background[this.data.currentSwiper].length)
@@ -195,6 +253,10 @@ Page({
       return
     }
 
+    Toast.loading({
+      message: '上传中...',
+      forbidClick: true,
+    });
     // 第一步，把canvas画布转换成临时图片    
     wx.canvasToTempFilePath({
       x: 0,
@@ -206,9 +268,32 @@ Page({
       destHeight: 240,
       fileType: "jpg", 
       success (res) {
-        // 第二步，把图片写入到相册（请求访问相册）
-        wx.saveImageToPhotosAlbum({
-          filePath: res.tempFilePath
+
+        console.log('生成图片成功', res)
+        console.log('/tmp/photo/' + (new Date().getTime()) + '.jpg')
+        // 将图片上传至云存储空间
+        wx.cloud.uploadFile({
+          cloudPath: 'tmp/photo/' + (new Date().getTime()) + '.jpg',
+          filePath: res.tempFilePath,
+          success: res => {
+
+            console.log('上传成功', res)
+            wx.cloud.getTempFileURL({
+              fileList: [res.fileID],
+              success: res => {
+
+                console.log('获取文件临时链接', res)
+                const url =  res.fileList[0].tempFileURL.replace('https','http');
+                // 发送到设备上
+                that.deviceActionSync('download_file', {
+                  url,
+                  local_path: '/data/photo/' + that.data.currentSwiper + '.jpg',
+                  file_type: 1,
+                })
+              },
+              fail: console.error
+            }) 
+          },
         })
       }
     })

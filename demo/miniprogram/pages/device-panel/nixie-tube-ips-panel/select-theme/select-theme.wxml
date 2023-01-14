@@ -1,15 +1,17 @@
 <!--pages/device-panel/nixie-tube-ips-panel/select-theme/select-theme.wxml-->
 
+<van-toast id="van-toast" z-index="1"/>
+
 <view  class="mycontainer">
-  <block wx:for="{{[1, 2, 3, 4, 5, 6, 7, 8, 9]}}">
+  <block wx:for="{{[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}}" wx:for-index="id" >
     <view class="card">
       <view class="title-row">
-        <text class="title"> 主题{{index + 1}}</text>
-        <van-button color="#0019ff" plain type="info" custom-class="submit-but">使用</van-button>
+        <text class="title"> 主题{{id + 1}}</text>
+        <van-button color="#0019ff" plain type="info" custom-class="submit-but" id="{{id}}" bind:click="onClickSubmit">使用</van-button>
       </view>
       <scroll-view class="img-group" scroll-x="{{true}}">
-        <block wx:for="{{imgArry}}">
-          <image class="img" src="{{item}}" mode="aspectFit" />
+        <block wx:for="{{[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}}"  wx:for-index="index" >
+          <image class="img" src="https://cammaker.oss-cn-hangzhou.aliyuncs.com/nixie-tube-ips/res/clock_theme/{{id}}/{{index}}.jpg" mode="aspectFit" />
         </block> 
       </scroll-view>
     </view> 

@@ -67,3 +67,8 @@
 - 小程序用户授权、登录：components/page-wrapper 
 - 配网交互步骤: pages/add-device/components/wifi-conf
 - iOS 系统获取 Wi-Fi 列表步骤引导: components/ios-wifi-guide
+
+
+待处理：
+  未校验上传自定义图片大小、是否为jpg、
+  

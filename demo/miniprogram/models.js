@@ -235,6 +235,16 @@ const updateDeviceInFamily = async ({ ProductId, DeviceName, AliasName }) => req
   AliasName
 });
 
+const callDeviceActionSync = async (device, actionId, inputParams) => {
+  const { Status, OutputParams } = await requestApi('AppCallDeviceActionSync', {
+    ProductId: device.ProductId,
+    DeviceName: device.DeviceName,
+    ActionId: actionId,
+    InputParams: JSON.stringify(inputParams),
+  })
+  return {Status, OutputParams};
+};
+
 module.exports = {
   requestApi,
   getDeviceList,
@@ -260,4 +270,5 @@ module.exports = {
   secureAddDeviceInFamily,
   sigBindDeviceInFamily,
   updateDeviceInFamily,
+  callDeviceActionSync,
 };
