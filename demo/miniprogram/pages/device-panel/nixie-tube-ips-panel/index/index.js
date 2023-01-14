@@ -1,61 +1,20 @@
 const app = getApp();
-const {
-  deleteDeviceFromFamily,
-  removeUserShareDevice,
-  checkDeviceFirmwareUpdate,
-} = require('../../../../models');
+
 const { controlDeviceData, getDevicesData } = require('../../../../redux/actions');
-const { getErrorMsg } = require('../../../../libs/utillib');
-const promisify = require('../../../../libs/wx-promisify');
+const { getErrorMsg, getTemplateShownValue} = require('../../../../libs/utillib');
 const { subscribeStore } = require('../../../../libs/store-subscribe');
-const { dangerColor } = require('../../../../constants');
 import Toast from '@vant/weapp/toast/toast';
 import Dialog from '@vant/weapp/dialog/dialog';
-
-const getTemplateShownValue = (templateInfo, value) => {
-  let shownValue;
-
-  switch (templateInfo.define.type) {
-    case 'bool':
-      shownValue = templateInfo.define.mapping[value];
-      break;
-    case 'enum':
-      shownValue = templateInfo.mappingIndex[templateInfo.define.mapping[value]].index;
-      break;
-    case 'int':
-    case 'float':
-      if (typeof value === 'undefined') {
-        shownValue = templateInfo.define.start;
-      } else {
-        shownValue = value;
-      }
-      break;
-    default:
-      shownValue = value;
-  }
-
-  return shownValue;
-};
 
 Page({
   data: {
     deviceInfo: {},
-    dataTemplate: {
-      properties: [],
-    },
-    // deviceData: {},
-
     deviceData: {
       properties: {},
       value: '',
       showValue: '',
     },
-
     deviceStatus: 0,
-    numberDialog: {
-      visible: false,
-      panelConfig: null,
-    },
 
     // 睡眠开关
     switchId: 'power_switch',
@@ -194,47 +153,6 @@ Page({
     }, 250);
   },
 
-  onTapItem({ currentTarget: { dataset: { item } } }) {
-    switch (item.define.type) {
-      case 'bool':
-        this.controlDeviceData(item.id, !this.data.deviceData[item.id] ? 1 : 0);
-        break;
-      case 'int':
-      case 'float':
-        this.dialogValue = this.data.deviceData[item.id];
-        this.setData({
-          numberDialog: {
-            visible: true,
-            panelConfig: item,
-          },
-        });
-        break;
-    }
-  },
-
-  onNumberDialogChange({ detail: { value } }) {
-    this.dialogValue = value;
-  },
-
-  onHideNumberDialog() {
-    this.setData({
-      numberDialog: {
-        visible: false,
-        panelConfig: null,
-      },
-    });
-  },
-
-  onNumberDialogSubmit() {
-    this.controlDeviceData(this.data.numberDialog.panelConfig.id, this.dialogValue);
-    this.onHideNumberDialog();
-  },
-
-  onPickerChange({ detail: { value }, currentTarget: { dataset: { item } } }) {
-    this.controlDeviceData(item.id, item.mappingList[value].value);
-  },
-  
-
   //亮度变化
   onBrightnessChange(event) {
     console.log(event.detail)
@@ -282,4 +200,29 @@ Page({
     this.closeTimeThemePopup()
     this.controlDeviceData('display_theme', this.data.deviceData.display_theme.properties.mappingIndex[e.detail.value].value);
   },
+
+  onClickCell: function(e) {
+    switch (e.target.id) {
+      case 'rgb-control':
+        wx.navigateTo({
+          url: `/pages/device-panel/nixie-tube-ips-panel/rgb-control/rgb-control?deviceId=${this.data.deviceInfo.DeviceId}`,
+        });
+        break;
+      case 'photo-send':
+        wx.navigateTo({
+          url: `/pages/device-panel/nixie-tube-ips-panel/photo-send/photo-send?deviceId=${this.data.deviceInfo.DeviceId}`,
+        });
+        break;
+      case 'select-theme':
+        wx.navigateTo({
+          url: `/pages/device-panel/nixie-tube-ips-panel/select-theme/select-theme?deviceId=${this.data.deviceInfo.DeviceId}`,
+        });
+        break;
+      case 'more-setting':
+        wx.navigateTo({
+          url: `/pages/device-panel/nixie-tube-ips-panel/more-setting/more-setting?deviceId=${this.data.deviceInfo.DeviceId}`,
+        });
+        break;
+    }
+  }
 });

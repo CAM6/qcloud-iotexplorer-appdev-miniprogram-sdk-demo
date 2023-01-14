@@ -33,61 +33,76 @@
       <view class="item-status status-online" wx:if="{{deviceInfo.DeviceName === '~virtualDev'}}">虚拟设备</view>
       <view class="item-status status-online" wx:elif="{{deviceInfo.NetType === 'ble'}}">蓝牙设备</view>
       <view class="item-status status-online" wx:elif="{{deviceInfo.NetType === 'lorawan'}}">LoRa 设备</view>
-      <!-- <view class="item-status status-online" wx:elif="{{deviceInfo.NetType === 'wifi-ble'}}">wifi设备</view> -->
       <view class="item-status status-{{deviceStatus === 1 ? 'online' : 'offline'}}" wx:else>{{deviceStatus === 1 ? '在线' : '离线'}}</view>
     </view>
     <view class="page-main">
+    
       <view class="switch_card">
-        <van-cell title="{{ deviceData.power_switch.properties.name === undefined ? '设备休眠' :  deviceData.power_switch.properties.name}}:" title-class="cell-title-class" border="{{ false }}" custom-class="custom-class"> 
-          <van-switch checked="{{ deviceData.power_switch.value ? true : false }}" active-color="#0019ff" bind:change="onSwitchChange" size="20px" node-class	="node-class"/>
+        <van-cell 
+          title="{{ deviceData.power_switch.properties.name === undefined ? '设备休眠' :  deviceData.power_switch.properties.name}}:" title-class="cell-title-class" 
+          border="{{ false }}" 
+          custom-class="custom-class"
+        > 
+          <van-switch 
+            checked="{{ deviceData.power_switch.value ? true : false }}" 
+            active-color="#0019ff" 
+            bind:change="onSwitchChange" 
+            size="20px" 
+            node-class="node-class"
+          />
         </van-cell>
       </view>
+
       <view class="card">
-        <text class="radio-text">{{ deviceData.display_mode.properties.name === undefined ? '显示模式' :  deviceData.display_mode.properties.name }}:</text>
-        <view class="custom-radio-group">
-        <van-radio-group value="{{ deviceData.display_mode.showValue }}" bind:change="onRadioChange" direction="horizontal">
+        <text class="radio-text">
+          {{ deviceData.display_mode.properties.name === undefined ? '显示模式' :  deviceData.display_mode.properties.name }}:
+        </text>
+      <view class="custom-radio-group">
+        <van-radio-group 
+          value="{{ deviceData.display_mode.showValue }}" 
+          bind:change="onRadioChange" 
+          direction="horizontal"
+        >
         <block wx:for="{{ deviceData.display_mode.properties.mappingList }}">
-          <van-radio name="{{ index }}" custom-class="custom-radio" checked-color="#0019ff">{{ deviceData.display_mode.properties.mappingList[index] }}</van-radio>
+          <van-radio name="{{ index }}" custom-class="custom-radio" checked-color="#0019ff">
+            {{ deviceData.display_mode.properties.mappingList[index] }}
+          </van-radio>
         </block>
         </van-radio-group>
       </view>
 
       <view class="slider-row">
-        <view class="slider-text">{{ deviceData.display_backlight.properties.name === undefined ? '显示背光' :  deviceData.display_backlight.properties.name  }}:</view>    
-          <van-slider value="{{ deviceData.display_backlight.value }}" bar-height="4px" active-color="#001aff" use-button-slot bind:change="onBrightnessChange" custom-class="custom-slider">
-            <view class="custom-button" slot="button" style="background-color: #001aff;">{{ deviceData.display_backlight.value }}</view>
-          </van-slider>
+        <view class="slider-text">
+          {{ deviceData.display_backlight.properties.name === undefined ? '显示背光' :  deviceData.display_backlight.properties.name  }}:
+        </view>    
+        <van-slider 
+          value="{{ deviceData.display_backlight.value }}" 
+          bar-height="4px" 
+          active-color="#001aff" 
+          use-button-slot 
+          bind:change="onBrightnessChange" 
+          custom-class="custom-slider"
+        >
+          <view class="custom-button" slot="button" style="background-color: #001aff;">{{ deviceData.display_backlight.value }}</view>
+        </van-slider>
       </view>
 
-      <van-cell title="{{ deviceData.display_theme.properties.name === undefined ? '时间主题' :  deviceData.display_theme.properties.name }}:" is-link value="{{ deviceData.display_theme.properties.mappingList[deviceData.display_theme.showValue] }}" title-class="cell-title-class" custom-class="time-theme" border="{{ false }}" id= "0" bind:click="showTimeThemePopup"	></van-cell>
-      
-    </view>
-
       <van-cell 
-      is-link
-      title="RGB控制"
-      link-type="navigateTo"
-      url="/pages/device-panel/nixie-tube-ips-panel/rgb-control/rgb-control"
-      />
-      <van-cell 
-      is-link
-      title="相册管理"
-      link-type="navigateTo"
-      url="/pages/device-panel/nixie-tube-ips-panel/photo-send/photo-send"
-      />
-      <van-cell 
-      is-link
-      title="下载主题"
-      link-type="navigateTo"
-      url="/pages/device-panel/nixie-tube-ips-panel/select-theme/select-theme"
-      />
-      <van-cell 
-      is-link
-      title="更多设置"
-      link-type="navigateTo"
-      url="/pages/device-panel/nixie-tube-ips-panel/more-setting/more-setting"
+        title="{{ deviceData.display_theme.properties.name === undefined ? '时间主题' :  deviceData.display_theme.properties.name }}:" 
+        is-link 
+        value="{{ deviceData.display_theme.properties.mappingList[deviceData.display_theme.showValue] }}" 
+        title-class="cell-title-class" 
+        custom-class="time-theme" border="{{ false }}" 
+        id= "0" 
+        bind:click="showTimeThemePopup"	
       />
 
     </view>
+      <van-cell is-link title="RGB控制" id= "rgb-control" bind:click="onClickCell" />
+      <van-cell is-link title="相册管理" id= "photo-send" bind:click="onClickCell" />
+      <van-cell is-link title="下载主题" id= "select-theme" bind:click="onClickCell" />
+      <van-cell is-link title="更多设置" id= "more-setting" bind:click="onClickCell" />
+    </view>
+    
   </view>
 </page-wrapper>

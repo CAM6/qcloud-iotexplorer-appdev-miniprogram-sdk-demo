@@ -1,4 +1,13 @@
 // pages/device-panel/nixie-tube-ips-panel/more-setting/more-setting.js
+
+const app = getApp();
+
+const { controlDeviceData, getDevicesData } = require('../../../../redux/actions');
+const { getErrorMsg, getTemplateShownValue } = require('../../../../libs/utillib');
+const { subscribeStore } = require('../../../../libs/store-subscribe');
+import Toast from '@vant/weapp/toast/toast';
+import Dialog from '@vant/weapp/dialog/dialog';
+
 Page({
 
   /**

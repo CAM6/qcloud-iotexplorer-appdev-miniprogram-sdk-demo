@@ -118,3 +118,28 @@ module.exports.base64ToHex = (base64String) => {
     return byteHex.length === 1 ? `0${byteHex}` : byteHex;
   }).join('');
 };
+
+module.exports.getTemplateShownValue = (templateInfo, value) => {
+  let shownValue;
+
+  switch (templateInfo.define.type) {
+    case 'bool':
+      shownValue = templateInfo.define.mapping[value];
+      break;
+    case 'enum':
+      shownValue = templateInfo.mappingIndex[templateInfo.define.mapping[value]].index;
+      break;
+    case 'int':
+    case 'float':
+      if (typeof value === 'undefined') {
+        shownValue = templateInfo.define.start;
+      } else {
+        shownValue = value;
+      }
+      break;
+    default:
+      shownValue = value;
+  }
+
+  return shownValue;
+};
