@@ -44,9 +44,9 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad({ deviceId }) {
+  onLoad({ deviceId, isShareDevice = false }) {
     this.setData({ ipx: app.globalData.isIpx });
-    // this.isShareDevice = isShareDevice;
+    this.isShareDevice = isShareDevice;
     this.deviceId = deviceId;
     const productId = deviceId.split('/', 2)[0];
 
@@ -55,7 +55,7 @@ Page({
         selector: state => ({
           productInfo: state.productInfoMap[productId],
           deviceData: state.deviceDataMap[deviceId],
-          deviceInfo: (state.deviceList)
+          deviceInfo: (isShareDevice ? state.shareDeviceList : state.deviceList)
             .find(item => item.DeviceId === deviceId),
           deviceStatus: state.deviceStatusMap[deviceId],
         }),
@@ -128,7 +128,6 @@ Page({
     });
     
     if(this.data.deviceStatus === 0) {
-      console.log("deviceStatus")
       Dialog.alert({
         title: '设备已离线',
         message: '请检查:\r\n 1、设备是否有电；\r\n 2、设备连接的路由器是否正常工作，网络通畅；\r\n 3、是否修改了路由器的名称或者密码，可以尝试重新连接；\r\n 4、设备是否与路由器距离过远，隔墙或有其他遮挡物。',

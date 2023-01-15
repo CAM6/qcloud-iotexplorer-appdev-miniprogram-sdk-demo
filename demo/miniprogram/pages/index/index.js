@@ -82,8 +82,21 @@ Page({
   },
 
   handleAddDevice() {
-    wx.navigateTo({
-      url: '/pages/add-device/ble-combo/ble-combo',
+    wx.showActionSheet({
+      itemList: ['第三方插件配网', '蓝牙配网'],
+      alertText: 'Wi-Fi 配网',
+      success: ({ tapIndex }) => {
+        switch (tapIndex) {
+          case 0:
+            this.handleAddDeviceByPlugin();
+            break;
+          case 1:
+            wx.navigateTo({
+              url: '/pages/add-device/ble-combo/ble-combo',
+            });
+            break;
+        }
+      }
     });
   },
 
@@ -95,7 +108,7 @@ Page({
     };
 
     // Todo 请填写物联网开发平台中创建的产品的产品 ID，或在弹出的提示框中输入
-    const productId = '';
+    const productId = '2JN512CCOY';
 
     if (!productId) {
       wx.showModal({

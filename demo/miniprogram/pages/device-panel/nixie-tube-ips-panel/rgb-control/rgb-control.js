@@ -63,9 +63,9 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad({ deviceId }) {
+  onLoad({ deviceId, isShareDevice = false  }) {
     this.setData({ ipx: app.globalData.isIpx });
-    // this.isShareDevice = isShareDevice;
+    this.isShareDevice = isShareDevice;
     this.deviceId = deviceId;
     const productId = deviceId.split('/', 2)[0];
 
@@ -74,7 +74,7 @@ Page({
         selector: state => ({
           productInfo: state.productInfoMap[productId],
           deviceData: state.deviceDataMap[deviceId],
-          deviceInfo: (state.deviceList)
+          deviceInfo: (isShareDevice ? state.shareDeviceList : state.deviceList)
             .find(item => item.DeviceId === deviceId),
           deviceStatus: state.deviceStatusMap[deviceId],
         }),
@@ -129,8 +129,6 @@ Page({
       console.error('panel prepareData: parse json fail', err);
       return;
     }
-    
-    console.log(state.deviceData)
 
     dataTemplate.properties.forEach((item) => {
       if (item.define.type === 'enum') {

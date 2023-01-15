@@ -205,27 +205,37 @@ Page({
   },
 
   onClickCell: function(e) {
+    var str = '';
+    if(this.isShareDevice) {
+      str = '&isShareDevice=1'
+    }
     switch (e.target.id) {
       case 'rgb-control':
         wx.navigateTo({
-          url: `/pages/device-panel/nixie-tube-ips-panel/rgb-control/rgb-control?deviceId=${this.data.deviceInfo.DeviceId}`,
+          url: `/pages/device-panel/nixie-tube-ips-panel/rgb-control/rgb-control?deviceId=${this.data.deviceInfo.DeviceId}` + str,
         });
         break;
       case 'photo-send':
         wx.navigateTo({
-          url: `/pages/device-panel/nixie-tube-ips-panel/photo-send/photo-send?deviceId=${this.data.deviceInfo.DeviceId}`,
+          url: `/pages/device-panel/nixie-tube-ips-panel/photo-send/photo-send?deviceId=${this.data.deviceInfo.DeviceId}` + str,
         });
         break;
       case 'select-theme':
         wx.navigateTo({
-          url: `/pages/device-panel/nixie-tube-ips-panel/select-theme/select-theme?deviceId=${this.data.deviceInfo.DeviceId}`,
+          url: `/pages/device-panel/nixie-tube-ips-panel/select-theme/select-theme?deviceId=${this.data.deviceInfo.DeviceId}` + str,
         });
         break;
       case 'more-setting':
         wx.navigateTo({
-          url: `/pages/device-panel/nixie-tube-ips-panel/more-setting/more-setting?deviceId=${this.data.deviceInfo.DeviceId}`,
+          url: `/pages/device-panel/nixie-tube-ips-panel/more-setting/more-setting?deviceId=${this.data.deviceInfo.DeviceId}` + str,
         });
         break;
+      case 'custom-theme':
+        wx.navigateTo({
+          url: `/pages/device-panel/nixie-tube-ips-panel/custom-theme/custom-theme?deviceId=${this.data.deviceInfo.DeviceId}` + str,
+        });
+        break;
+        
     }
   }
 });

@@ -16,7 +16,7 @@ Page({
   data: {
     deviceInfo: {},
     
-    background: ['https://736d-smart-device-9gxm2t0gcfb27c2f-1306095197.tcb.qcloud.la/tmp/photo/1673681298676.jpg?sign=ab8205d1666f5f11557774d90f4a33b3&t=1673683243', '', 'https://736d-smart-device-9gxm2t0gcfb27c2f-1306095197.tcb.qcloud.la/tmp/photo/0%20(2).jpg?sign=47fba40e65a37fdc838b437513e1ef87&t=1673683342','', '', ''],
+    background: ['', '', '', '', '', '', '', '', '', ''],
     currentSwiper: 0,
   },
 
@@ -159,7 +159,7 @@ Page({
       sourceType: ['album', 'camera'],
       sizeType: ['compressed'],
       success(res) {
-        console.log(res.tempFiles[0].size);
+        console.log("fileSize" + res.tempFiles[0].size);
         wx.navigateTo({
           url: `/pages/device-panel/nixie-tube-ips-panel/cropImage/cropImage?tempFilePath=${res.tempFiles[0].tempFilePath}&currentSwiper=${self.data.currentSwiper}`
         })
@@ -276,7 +276,7 @@ Page({
                 // 发送到设备上
                 that.deviceActionSync('download_file', {
                   url,
-                  local_path: '/data/photo/' + that.data.currentSwiper + '.jpg',
+                  local_path: '/data/clock_theme/1/' + that.data.currentSwiper + '.jpg',
                   file_type: 1,
                 })
               },

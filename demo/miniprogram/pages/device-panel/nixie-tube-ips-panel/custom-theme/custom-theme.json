@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "van-toast": "@vant/weapp/toast/index"
+  },
+  "navigationBarTitleText": "自定义主题"
+}

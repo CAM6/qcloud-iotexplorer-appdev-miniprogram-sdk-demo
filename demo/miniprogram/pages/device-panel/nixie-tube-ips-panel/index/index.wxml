@@ -99,9 +99,10 @@
       />
 
     </view>
-      <van-cell is-link title="RGB控制" id= "rgb-control" bind:click="onClickCell" />
+      <van-cell is-link title="精选主题" id= "select-theme" bind:click="onClickCell" />
+      <van-cell is-link title="自定义主题" id= "custom-theme" bind:click="onClickCell" />
       <van-cell is-link title="相册管理" id= "photo-send" bind:click="onClickCell" />
-      <van-cell is-link title="下载主题" id= "select-theme" bind:click="onClickCell" />
+      <van-cell is-link title="RGB控制" id= "rgb-control" bind:click="onClickCell" />
       <van-cell is-link title="更多设置" id= "more-setting" bind:click="onClickCell" />
     </view>
 

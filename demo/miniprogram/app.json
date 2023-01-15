@@ -20,7 +20,8 @@
     "pages/device-panel/nixie-tube-ips-panel/photo-send/photo-send",
     "pages/device-panel/nixie-tube-ips-panel/cropImage/cropImage",
     "pages/device-panel/nixie-tube-ips-panel/select-theme/select-theme",
-    "pages/device-panel/nixie-tube-ips-panel/more-setting/more-setting"
+    "pages/device-panel/nixie-tube-ips-panel/more-setting/more-setting",
+    "pages/device-panel/nixie-tube-ips-panel/custom-theme/custom-theme"
   ],
   "subPackages": [
     {
@@ -36,7 +37,12 @@
       "pages": [
         "device-configuration-plugin"
       ],
-      "plugins": {}
+      "plugins": {        
+        "iotexplorer-weapp-plugin": {
+        "version": "3.2.4",
+        "provider": "wxb711dd9e4296e7f6"
+        }
+      }
     },
     {
       "root": "pages/guide",

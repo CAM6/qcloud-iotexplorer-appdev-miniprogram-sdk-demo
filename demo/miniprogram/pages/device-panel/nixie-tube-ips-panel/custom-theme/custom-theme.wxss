@@ -1,0 +1,126 @@
+.mycontainer {
+  min-height: 100vh;
+  padding-top: 30rpx;
+  box-sizing: border-box;
+  background-color: #E9ECF5;
+}
+
+.banner-wrap {
+  position: relative;
+  height: 730rpx;
+}
+
+.banner {
+  display: inline-block;
+  width: 100vw;
+  height: 100%;
+  overflow: hidden;
+}
+
+.banner-img-wrap {
+  width: 405rpx;
+  height: 720rpx;
+  box-sizing: border-box;
+  background-color: white;
+  /* border-radius: 100rpx; */
+}
+
+/*用来包裹所有的小圆点  */ 
+.bannerdots {
+  width: 750rpx;
+  height: 36rpx;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  left: 0;
+  bottom: 20rpx;
+}
+ 
+/*未选中时的小圆点样式 */
+.bannerdot {
+  margin-top: 80rpx;
+  width: 50rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: center;
+  margin-right: 26rpx;
+  background-color: #3a3a3a;
+  border-radius: 100%;
+  color: #fff;
+  font-size: 30rpx;
+}
+
+/*选中以后的小圆点样式  */
+.banneractive {
+  background-color: #001aff;
+}
+ 
+.flex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  display: box;
+  flex-wrap: wrap;
+}
+ 
+.alignC {
+  /*元素居中*/
+  align-items: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  -o-align-items: center;
+}
+ 
+.flexC {
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  -o-justify-content: center;
+}
+ 
+/* 改写点点为数字 */
+.bannerNum {
+  width: 150rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: center;
+  position: absolute;
+  right: 10rpx;
+  bottom: 40rpx;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 30rpx;
+}
+
+.canvas { 
+  width: 100%;
+  height: 100%;
+  border-radius: 100rpx;
+}
+
+.below-block {
+  min-height: 100vh;
+  margin-top: 100rpx;
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.submit-but {
+  /* left: 70rpx; */
+  margin-top:50rpx;
+  width: 500rpx !important;
+  height: 75rpx !important;
+  border: 2px solid white;
+  border-radius: 25px !important;
+  color: white !important;
+  font-size: 14px !important;
+  background-color: #2372fe !important;
+}

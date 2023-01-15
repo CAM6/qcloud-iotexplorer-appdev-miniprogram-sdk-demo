@@ -1,0 +1,29 @@
+<!--pages/device-panel/nixie-tube-ips-panel/rgb-control/rgb-control.wxml-->
+
+<view class="mycontainer">
+  <view class="banner-wrap">
+    <swiper class="banner" previous-margin="100rpx" next-margin="100rpx" current="{{currentSwiper}}" circular="true" indicator-color="#3a3a3a" indicator-active-color="#00a95f"bindchange="swiperChange">
+      <block wx:for="{{background}}" wx:key="index">
+        <swiper-item>
+          <view class="banner-img-wrap" bind:tap="chooseCropImage">
+            <!-- <image class="banner-img" src="{{item}}" mode="aspectFit" /> -->
+            <canvas id="cam{{index}}" type="2d" class="canvas"  />
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+     <!--重置小圆点的样式  -->
+     <view class="bannerdots flex alignC flexC">  
+        <block wx:for="{{background}}"  wx:key="index">  
+            <view class="bannerdot{{index == currentSwiper ? ' banneractive' : ''}}" data-current="{{index}}" bindtap='goCurrent'>{{index}}</view>  
+        </block>  
+      </view>  
+  </view>
+  <view class="below-block">
+    <van-button type="primary" size="large" custom-class="submit-but"  bind:click="submit">上传</van-button>
+  </view>
+
+  <van-toast id="van-toast" z-index="1"/>
+</view>
+
+
