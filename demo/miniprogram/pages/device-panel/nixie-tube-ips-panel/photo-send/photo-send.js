@@ -263,7 +263,7 @@ Page({
         console.log('生成图片成功', res)
         // 将图片上传至云存储空间
         wx.cloud.uploadFile({
-          cloudPath: 'tmp/photo/' + (new Date().getTime()) + '.jpg',
+          cloudPath: 'tmp/photo/' + that.data.deviceId + "/" + (new Date().getTime()) + '.jpg',
           filePath: res.tempFilePath,
           success: res => {
 
