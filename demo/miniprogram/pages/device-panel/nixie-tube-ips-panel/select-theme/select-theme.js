@@ -130,6 +130,7 @@ Page({
       url: 'http://cammaker.oss-cn-hangzhou.aliyuncs.com/nixie-tube-ips/res/clock_theme/' + id,
       local_path: '/data/clock_theme/1',
       file_type: 3,
+      value: 1,
     })
   }
 })

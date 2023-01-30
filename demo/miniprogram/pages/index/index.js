@@ -36,7 +36,7 @@ Page({
   },
 
   onTapItem({ currentTarget: { dataset: { item } } }) {
-    if(item.ProductId == "2JN512CCOY") {
+    if(item.ProductId == "8K1Q8WTEBZ") {
       if (item.isShareDevice) {
         wx.navigateTo({
           url: `/pages/device-panel/nixie-tube-ips-panel/index/index?deviceId=${item.DeviceId}&isShareDevice=1`,

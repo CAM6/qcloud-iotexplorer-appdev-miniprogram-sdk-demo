@@ -15,12 +15,12 @@
     id= "device-info"
     bind:click="onOperationButtonClick"
   />
-  <van-cell 
+  <!-- <van-cell 
     is-link
     title="文件资源管理"
     link-type="navigateTo"
     url="/pages/file-manage/add-file/add-file"
-  />
+  /> -->
 
   <block wx:if="{{!deviceInfo.isShareDevice}}">
     <van-cell 

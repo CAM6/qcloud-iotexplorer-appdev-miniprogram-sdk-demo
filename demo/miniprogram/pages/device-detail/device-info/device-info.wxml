@@ -1,22 +1,28 @@
 <!--pages/device-detail/device-info/device-info.wxml-->
 
 <view class="container">
+
   <van-cell 
-    title="产品型号"
-    value="{{}}"
+    title="厂家名称"
+    value="{{deviceExtInfo.ManufacturerName}}"
     custom-class="custom-class"
   />
   <van-cell 
+    title="产品型号"
+    value="{{deviceExtInfo.ProductModel}}"
+  />
+  <van-cell 
     title="MAC地址"
-    value="{{}}"
+    value="{{deviceExtInfo.Mac}}"
   />
   <van-cell 
     title="固件版本"
-    value="{{}}"
+    value="{{deviceExtInfo.FwVer}}"
   />
   <van-cell 
     title="设备ID"
-    value="{{deviceId}}"
+    value="{{deviceId}}" 
+    value-class="value-class"
   />
 </view>
 

@@ -16,7 +16,7 @@ Page({
   data: {
     deviceInfo: {},
     
-    background: ['https://736d-smart-device-9gxm2t0gcfb27c2f-1306095197.tcb.qcloud.la/tmp/photo/1673681298676.jpg?sign=ab8205d1666f5f11557774d90f4a33b3&t=1673683243', '', 'https://736d-smart-device-9gxm2t0gcfb27c2f-1306095197.tcb.qcloud.la/tmp/photo/0%20(2).jpg?sign=47fba40e65a37fdc838b437513e1ef87&t=1673683342','', '', ''],
+    background: ['', '', '','', '', ''],
     currentSwiper: 0,
   },
 
@@ -158,6 +158,7 @@ Page({
       mediaType: ['image'],
       sourceType: ['album', 'camera'],
       sizeType: ['compressed'],
+      count: 1,
       success(res) {
         console.log(res.tempFiles[0].size);
         wx.navigateTo({
@@ -277,7 +278,8 @@ Page({
                 that.deviceActionSync('download_file', {
                   url,
                   local_path: '/data/photo/' + that.data.currentSwiper + '.jpg',
-                  file_type: 1,
+                  file_type: 4,
+                  value: that.data.currentSwiper,
                 })
               },
               fail: console.error

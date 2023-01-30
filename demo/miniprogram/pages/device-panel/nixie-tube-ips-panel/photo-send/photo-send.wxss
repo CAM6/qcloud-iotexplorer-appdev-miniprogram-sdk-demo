@@ -118,7 +118,6 @@
   margin-top:50rpx;
   width: 500rpx !important;
   height: 75rpx !important;
-  border: 2px solid white;
   border-radius: 25px !important;
   color: white !important;
   font-size: 14px !important;

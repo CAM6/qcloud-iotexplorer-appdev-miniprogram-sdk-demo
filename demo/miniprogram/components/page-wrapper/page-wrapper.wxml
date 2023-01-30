@@ -1,7 +1,7 @@
 <block>
   <view class="container" wx:if="{{state === 'fail'}}">
     <view class="page-title">
-      <view>珞一物联网开发平台</view>
+      <view>珞一智能物联网平台</view>
       <!-- <view>小程序 Demo</view> -->
     </view>
     <image 

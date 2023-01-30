@@ -158,6 +158,7 @@ Page({
       mediaType: ['image'],
       sourceType: ['album', 'camera'],
       sizeType: ['compressed'],
+      count: 1,
       success(res) {
         console.log("fileSize" + res.tempFiles[0].size);
         wx.navigateTo({
@@ -278,6 +279,7 @@ Page({
                   url,
                   local_path: '/data/clock_theme/1/' + that.data.currentSwiper + '.jpg',
                   file_type: 1,
+                  value: that.data.currentSwiper,
                 })
               },
               fail: console.error

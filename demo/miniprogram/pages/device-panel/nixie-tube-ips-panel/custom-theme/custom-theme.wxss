@@ -39,15 +39,15 @@
 /*未选中时的小圆点样式 */
 .bannerdot {
   margin-top: 80rpx;
-  width: 50rpx;
-  height: 50rpx;
-  line-height: 50rpx;
+  width: 45rpx;
+  height: 45rpx;
+  line-height: 45rpx;
   text-align: center;
-  margin-right: 26rpx;
+  margin-right: 20rpx;
   background-color: #3a3a3a;
   border-radius: 100%;
   color: #fff;
-  font-size: 30rpx;
+  font-size: 25rpx;
 }
 
 /*选中以后的小圆点样式  */
@@ -118,7 +118,6 @@
   margin-top:50rpx;
   width: 500rpx !important;
   height: 75rpx !important;
-  border: 2px solid white;
   border-radius: 25px !important;
   color: white !important;
   font-size: 14px !important;

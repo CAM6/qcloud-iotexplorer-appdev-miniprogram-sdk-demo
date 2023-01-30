@@ -33,18 +33,6 @@
       ]
     },
     {
-      "root": "pages/device-configuration-plugin",
-      "pages": [
-        "device-configuration-plugin"
-      ],
-      "plugins": {        
-        "iotexplorer-weapp-plugin": {
-        "version": "3.2.4",
-        "provider": "wxb711dd9e4296e7f6"
-        }
-      }
-    },
-    {
       "root": "pages/guide",
       "pages": [
         "err-guide/err-guide"
@@ -55,7 +43,7 @@
     "backgroundColor": "#FFF",
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFF",
-    "navigationBarTitleText": "物联网开发平台小程序 Demo",
+    "navigationBarTitleText": "珞一智能",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",

@@ -17,7 +17,7 @@ module.exports = {
           {
             type: 'paragraph', children: [
               { type: 'text', text: '1. 登录腾讯云 ' },
-              { type: 'link', text: '物联网开发平台', link: 'https://console.cloud.tencent.com/iotexplorer' },
+              { type: 'link', text: '物联网开发平台' },
               { type: 'text', text: '，进入项目管理页面。' },
             ]
           },

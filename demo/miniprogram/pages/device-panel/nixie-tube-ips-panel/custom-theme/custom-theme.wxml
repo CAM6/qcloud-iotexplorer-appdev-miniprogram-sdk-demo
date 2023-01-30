@@ -20,7 +20,7 @@
       </view>  
   </view>
   <view class="below-block">
-    <van-button type="primary" size="large" custom-class="submit-but"  bind:click="submit">上传</van-button>
+    <van-button type="default" size="large" custom-class="submit-but"  bind:click="submit">上传</van-button>
   </view>
 
   <van-toast id="van-toast" z-index="1"/>

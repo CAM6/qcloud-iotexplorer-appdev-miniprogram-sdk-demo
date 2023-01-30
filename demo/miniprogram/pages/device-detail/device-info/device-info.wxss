@@ -8,3 +8,7 @@
 .custom-class {
   margin-top: 30rpx;
 }
+
+.value-class {
+  min-width: 70% !important;
+}

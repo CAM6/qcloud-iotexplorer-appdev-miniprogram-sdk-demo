@@ -1,5 +1,5 @@
 // Todo 请填写 物联网开发平台 > 应用开发 中申请的小程序 AppKey
-const APP_KEY = 'mkZXMIrJBDgnaCFez';
+const APP_KEY = 'mKXfSkXMfokvxDpdU';
 
 // 如果在开发过程中需要更换 AppKey，请按照以下步骤操作：
 // 1. 修改 app.js 以及 cloudfunctions/login/index.js 代码中配置的 AppKey 和 AppSecret。
@@ -54,7 +54,7 @@ App({
     } else {
       wx.cloud.init({
         // Todo 请填写您的云开发环境 ID
-        env: 'smart-device-9gxm2t0gcfb27c2f',
+        env: 'explormaker-3ggox9ps91a7d315',
       });
     }
 

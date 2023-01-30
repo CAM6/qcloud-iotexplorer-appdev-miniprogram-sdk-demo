@@ -245,6 +245,12 @@ const callDeviceActionSync = async (device, actionId, inputParams) => {
   return {Status, OutputParams};
 };
 
+const getDeviceExtInfo = async ({ DeviceId }) => {
+  return  await requestApi('AppGetDeviceExtInfo', {
+    DeviceId
+  });
+};
+
 module.exports = {
   requestApi,
   getDeviceList,
@@ -271,4 +277,5 @@ module.exports = {
   sigBindDeviceInFamily,
   updateDeviceInFamily,
   callDeviceActionSync,
+  getDeviceExtInfo,
 };
