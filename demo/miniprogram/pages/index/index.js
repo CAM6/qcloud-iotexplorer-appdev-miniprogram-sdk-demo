@@ -27,6 +27,13 @@ Page({
   onUnload() {
     this.unsubscribeAll && this.unsubscribeAll();
   },
+  
+    /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage() {
+
+  },
 
   onLoginReady() {
     this.setData({
