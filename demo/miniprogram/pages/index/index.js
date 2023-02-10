@@ -14,6 +14,7 @@ Page({
   },
 
   onLoad() {
+    this.TubeIPSProductId = '8K1Q8WTEBZ';
     this.unsubscribeAll = subscribeStore([
       'deviceList',
       'shareDeviceList',
@@ -43,7 +44,7 @@ Page({
   },
 
   onTapItem({ currentTarget: { dataset: { item } } }) {
-    if(item.ProductId == "8K1Q8WTEBZ") {
+    if(item.ProductId == this.TubeIPSProductId) {
       if (item.isShareDevice) {
         wx.navigateTo({
           url: `/pages/device-panel/nixie-tube-ips-panel/index/index?deviceId=${item.DeviceId}&isShareDevice=1`,
@@ -89,25 +90,25 @@ Page({
   },
 
   handleAddDevice() {
-    wx.showActionSheet({
-      itemList: ['第三方插件配网', '蓝牙配网'],
-      alertText: 'Wi-Fi 配网',
-      success: ({ tapIndex }) => {
-        switch (tapIndex) {
-          case 0:
-            this.handleAddDeviceByPlugin();
-            break;
-          case 1:
-            wx.navigateTo({
-              url: '/pages/add-device/ble-combo/ble-combo',
-            });
-            break;
-        }
-      }
-    });
+    // wx.showActionSheet({
+    //   itemList: ['第三方插件配网', '蓝牙配网'],
+    //   alertText: 'Wi-Fi 配网',
+    //   success: ({ tapIndex }) => {
+    //     switch (tapIndex) {
+    //       case 0:
+            this.handleAddDeviceByPlugin(this.TubeIPSProductId);
+    //         break;
+    //       case 1:
+            // wx.navigateTo({
+            //   url: '/pages/add-device/ble-combo/ble-combo',
+            // });
+    //         break;
+    //     }
+    //   }
+    // });
   },
 
-  handleAddDeviceByPlugin() {
+  handleAddDeviceByPlugin(productId) {
     const goPluginAddDevice = (productId) => {
       wx.navigateTo({
         url: `/pages/device-configuration-plugin/device-configuration-plugin?productId=${productId}`,
@@ -115,7 +116,7 @@ Page({
     };
 
     // Todo 请填写物联网开发平台中创建的产品的产品 ID，或在弹出的提示框中输入
-    const productId = '2JN512CCOY';
+    // const productId = '8K1Q8WTEBZ';
 
     if (!productId) {
       wx.showModal({

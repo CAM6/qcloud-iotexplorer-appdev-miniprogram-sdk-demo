@@ -37,6 +37,18 @@
       "pages": [
         "err-guide/err-guide"
       ]
+    },
+    {
+      "root": "pages/device-configuration-plugin",
+      "pages": [
+        "device-configuration-plugin"
+      ],
+      "plugins": {
+        "iotexplorer-weapp-plugin": {
+          "version": "3.2.5",
+          "provider": "wxb711dd9e4296e7f6"
+        }
+      }
     }
   ],
   "window": {
