@@ -9,7 +9,8 @@
     "van-picker": "@vant/weapp/picker/index",
     "van-overlay": "@vant/weapp/overlay/index",
     "van-toast": "@vant/weapp/toast/index",
-    "van-dialog": "@vant/weapp/dialog/index"
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-area": "@vant/weapp/area/index"
   },
   "navigationBarTitleText": "更多设置",
   "enablePullDownRefresh": false

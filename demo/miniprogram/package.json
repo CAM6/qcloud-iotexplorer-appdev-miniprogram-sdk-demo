@@ -32,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/tencentyun/qcloud-iotexplorer-appdev-miniprogram-sdk-demo/issues"
   },
-  "homepage": "https://github.com/tencentyun/qcloud-iotexplorer-appdev-miniprogram-sdk-demo#readme"
+  "homepage": "https://github.com/tencentyun/qcloud-iotexplorer-appdev-miniprogram-sdk-demo#readme",
+  "devDependencies": {
+    "@vant/area-data": "^1.4.0"
+  }
 }

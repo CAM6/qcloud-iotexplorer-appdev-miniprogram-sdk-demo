@@ -36,3 +36,7 @@
 .time-zone {
   width: 100% !important;
 }
+
+.value-class {
+  min-width: 70% !important;
+}
