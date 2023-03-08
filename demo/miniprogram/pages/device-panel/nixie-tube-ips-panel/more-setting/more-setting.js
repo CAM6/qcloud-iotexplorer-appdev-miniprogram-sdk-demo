@@ -5,8 +5,11 @@ const app = getApp();
 const { controlDeviceData, getDevicesData } = require('../../../../redux/actions');
 const { getErrorMsg, getTemplateShownValue, formatDate } = require('../../../../libs/utillib');
 const { subscribeStore } = require('../../../../libs/store-subscribe');
+import { getAddress, setAddress } from '../../../../api/api'
+
 import Toast from '@vant/weapp/toast/toast';
 import Dialog from '@vant/weapp/dialog/dialog';
+import { areaList } from '../../../../miniprogram_npm/@vant/area-data/area-data';
 
 Page({
   
@@ -32,13 +35,20 @@ Page({
     timeId: 'clock_time',
     timeValue: "",
     timeStamp: 0,
-    timePopupShow: false,
 
     //时区设置
     timeZoneId: 'clock_utc',
     timeZoneList: [],
     timeZoneindex: 0,
-    timeZonePopupShow: false,
+
+    //地址设置
+    areaList,
+    addressCode: '',
+    addressStr: '',
+    addressInfo: {},
+
+    popupShow: false,
+    popupKey: ''
   },
 
   /**
@@ -64,6 +74,16 @@ Page({
     ]);
 
     this.initTimeZone()
+    this.getDeviceAddressInfo()
+  },
+
+  getDeviceAddressInfo: function () {
+    getAddress({ deviceId: this.deviceId.split('/', 2)[1] }).then(res => {
+      this.setData( {
+        addressInfo: res.obj,
+        addressStr: (res.obj.province) + (" ") + (res.obj.city) + (" ") + (res.obj.county)
+      })
+    })
   },
 
   initTimeZone() {
@@ -212,23 +232,33 @@ Page({
       case 'timeZone':
         this.setData({
           timeZoneindex: this.getTimeZoneIndex(this.data.timeZoneList, this.data.deviceData.clock_utc.value),
-          timeZonePopupShow: true,
+          popupShow: true,
+          popupKey: "timeZone",
         })
         break;
       case 'timeSet':
         var date = new Date(); //时间对象
         var str = date.getTime(); //转换成时间戳
         this.setData({
-          timePopupShow: true,
+          popupShow: true,
+          popupKey: "time",
           timeStamp: str,
+        })
+        break;
+      case 'address':
+        this.setData({
+          popupShow: true,
+          popupKey: "address",
+ 
         })
         break;
     }
   },
 
-  closeTimePopup: function () {
+  closePopup: function () {
     this.setData({
-      timePopupShow: false
+      popupShow: false,
+      popupKey: ''
     })
   },
 
@@ -238,14 +268,8 @@ Page({
       timeValue: this.filterTime(e.detail),
       timeStamp: e.detail,
     })
-    this.closeTimePopup()
+    this.closePopup()
     this.controlDeviceData('clock_time', parseInt(this.data.timeStamp / 1000));
-  },
-
-  closeTimeZonePopup: function () {
-    this.setData({
-      timeZonePopupShow: false
-    })
   },
 
   // 设置时区
@@ -254,7 +278,54 @@ Page({
       timeZoneindex: e.detail.index,
       'deviceData.clock_utc.value': e.detail.value
     })
-    this.closeTimeZonePopup()
+    this.closePopup()
     this.controlDeviceData('clock_utc', this.data.deviceData.clock_utc.value);
-  }
+  },
+
+  // 设置地区
+  onConfirmAddressPicker: function (e) {
+    const areas = e.detail.values
+    console.log(areas);
+    const addressStr = areas.map(item => item.name).join(" ")
+    this.setData({
+      addressInfo: {
+        deviceId: this.deviceId.split('/', 2)[1],
+        province: areas[0].name,
+        city: areas[1].name,
+        county: areas[2].name,
+      },
+      addressCode: areas[areas.length - 1].code,
+      addressStr: addressStr,
+    })
+    console.log(this.data.addressInfo);
+
+    setAddress(this.data.addressInfo).then(() => {
+      wx.showToast({
+        title: '修改成功'
+      })
+    })
+
+    this.closePopup()
+  },
+
+  //设置语音识别开关
+  onSwitchSpeechRecChange({ detail }) {
+    // 需要手动对 checked 状态进行更新
+    this.setData({ 'deviceData.speech_rec.value' : detail ? 1 : 0 });
+    this.controlDeviceData('speech_rec', this.data.deviceData.speech_rec.value);
+  },
+
+  //设置提示音开关
+  onSwitchSpeechToneChange({ detail }) {
+    // 需要手动对 checked 状态进行更新
+    this.setData({ 'deviceData.speech_tone.value' : detail ? 1 : 0 });
+    this.controlDeviceData('speech_tone', this.data.deviceData.speech_tone.value);
+  },
+
+  //设置静音开关
+  onSwitchSpeechMuteChange({ detail }) {
+    // 需要手动对 checked 状态进行更新
+    this.setData({ 'deviceData.speech_mute.value' : detail ? 1 : 0 });
+    this.controlDeviceData('speech_mute', this.data.deviceData.speech_mute.value);
+  },
 })

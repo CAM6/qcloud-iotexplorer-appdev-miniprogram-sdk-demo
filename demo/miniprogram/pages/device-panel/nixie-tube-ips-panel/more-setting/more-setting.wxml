@@ -1,20 +1,28 @@
 <!--pages/device-panel/nixie-tube-ips-panel/more-setting/more-setting.wxml-->
 
-<van-popup show="{{ timePopupShow }}" position="bottom" bind:close="closeTimePopup">
+<van-popup show="{{ popupShow }}" position="bottom" bind:close="closePopup">
   <van-datetime-picker
-      type="datetime"
-      value="{{ timeStamp }}"
-      bind:cancel="closeTimePopup"
-      bind:confirm="onConfirmTimePicker"
+    wx:if="{{ popupKey === 'time' }}"
+    type="datetime"
+    value="{{ timeStamp }}"
+    bind:cancel="closePopup"
+    bind:confirm="onConfirmTimePicker"
   />
-</van-popup>
-<van-popup show="{{ timeZonePopupShow }}" position="bottom" bind:close="closeTimeZonePopup">
   <van-picker
+    wx:if="{{ popupKey === 'timeZone' }}"
     default-index="{{timeZoneindex}}"
     columns="{{timeZoneList}}"
     show-toolbar
-    bind:cancel="closeTimeZonePopup"
+    bind:cancel="closePopup"
     bind:confirm="onConfirmTimeZonePicker"
+  />
+  <van-area
+    wx:if="{{ popupKey === 'address' }}"
+    area-list="{{ areaList }}"
+    value="{{ addressCode }}"
+    columns-num="{{ 3 }}"
+    bind:cancel="closePopup"
+    bind:confirm="onConfirmAddressPicker"
   />
 </van-popup>
 
@@ -65,6 +73,69 @@
     </view>
     <view class="one-class">
       <van-cell title="{{ deviceData.clock_time.properties.name === undefined ? '设置时间' :  deviceData.clock_time.properties.name }}:" is-link value="{{ timeValue }}" id= "timeSet" bind:click="onOperationClick"	></van-cell>
+    </view>
+  </view>
+
+  <view class="title-class">
+    <text>天气设置</text>
+  </view>
+  <view class="card">
+    <view class="one-class">
+      <van-cell title="设置地区:" is-link value="{{ addressStr }}" id= "address" bind:click="onOperationClick"	
+      value-class="value-class"
+      ></van-cell>
+    </view>
+  </view>
+
+  <view class="title-class">
+    <text>语音设置</text>
+  </view>
+  <view class="card">
+
+    <view class="one-class">
+      <van-cell 
+        title="{{ deviceData.speech_rec.properties.name === undefined ? '语音识别' :  deviceData.speech_rec.properties.name }}:" 
+        title-class="cell-title-class" 
+        custom-class="custom-class"
+      > 
+        <van-switch 
+          checked="{{ deviceData.speech_rec.value ? true : false }}" 
+          active-color="#0019ff" 
+          bind:change="onSwitchSpeechRecChange" 
+          size="20px" 
+          custom-class="custom-class"
+        />
+      </van-cell>
+    </view>
+    <view class="one-class">
+      <van-cell 
+        title="{{ deviceData.speech_tone.properties.name === undefined ? '提示音' :  deviceData.speech_tone.properties.name }}:" 
+        title-class="cell-title-class" 
+        custom-class="custom-class"
+      > 
+        <van-switch 
+          checked="{{ deviceData.speech_tone.value ? true : false }}" 
+          active-color="#0019ff" 
+          bind:change="onSwitchSpeechToneChange" 
+          size="20px" 
+          custom-class="custom-class"
+        />
+      </van-cell>
+    </view>
+    <view class="one-class">
+      <van-cell 
+        title="{{ deviceData.speech_mute.properties.name === undefined ? '静音' :  deviceData.speech_mute.properties.name }}:" 
+        title-class="cell-title-class" 
+        custom-class="custom-class"
+      > 
+        <van-switch 
+          checked="{{ deviceData.speech_mute.value ? true : false }}" 
+          active-color="#0019ff" 
+          bind:change="onSwitchSpeechMuteChange" 
+          size="20px" 
+          custom-class="custom-class"
+        />
+      </van-cell>
     </view>
   </view>
 </view>
