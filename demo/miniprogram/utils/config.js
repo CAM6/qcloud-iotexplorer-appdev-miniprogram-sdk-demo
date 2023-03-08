@@ -2,8 +2,8 @@
 const accountInfo = wx.getAccountInfoSync()
 let env = accountInfo.miniProgram.envVersion || 'release'  // 开发版 develop 体验版 trial 正式版 release
 const baseApi = {
-  // develop: 'https://www.explorm.com',
-  develop: 'http://127.0.0.1:8193', // 开发环境的ip地址
+  develop: 'https://www.explorm.com',
+  // develop: 'http://192.168.50.6:8193', // 开发环境的ip地址
   trial: 'https://www.explorm.com',
   release: 'https://www.explorm.com'
 }
@@ -14,8 +14,8 @@ if (env === 'develop') {
 }
 
 module.exports = {
-  // baseUrl: baseApi[env] + '/api/em-ma',
-  baseUrl: baseApi[env],
+  baseUrl: baseApi[env] + '/api/em-ma',
+  // baseUrl: baseApi[env],
 
   fileBaseUrl: baseApi[env] + '/oss/',
   env

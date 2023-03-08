@@ -80,7 +80,7 @@ Page({
     console.log(id);
     // 发送到设备上
     this.deviceActionSync('download_file', {
-      url: 'http://cammaker.oss-cn-hangzhou.aliyuncs.com/nixie-tube-ips/res/clock_theme/' + id,
+      url: 'http://www.explorm.com/oss/tube-ips/theme/' + id,
       local_path: '/data/clock_theme/1',
       file_type: 3,
       value: 1,

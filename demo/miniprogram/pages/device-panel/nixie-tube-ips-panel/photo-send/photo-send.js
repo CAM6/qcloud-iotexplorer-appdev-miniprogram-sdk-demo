@@ -7,6 +7,7 @@ const app = getApp();
 const { callDeviceActionSync } = require('../../../../models');
 const { getErrorMsg, getTemplateShownValue, formatDate } = require('../../../../libs/utillib');
 const { subscribeStore } = require('../../../../libs/store-subscribe');
+import { upload } from '../../../../api/file'
 
 Page({
 
@@ -261,30 +262,24 @@ Page({
       success (res) {
 
         console.log('生成图片成功', res)
-        // 将图片上传至云存储空间
-        wx.cloud.uploadFile({
-          cloudPath: 'tmp/photo/' + that.data.deviceId + "/" + (new Date().getTime()) + '.jpg',
-          filePath: res.tempFilePath,
-          success: res => {
 
-            console.log('上传成功', res)
-            wx.cloud.getTempFileURL({
-              fileList: [res.fileID],
-              success: res => {
+        const file = res.tempFilePath;
+        const fileData = {
+          type: 'TUBE_IPS_TMP_IMG'
+        }
+        upload(file, fileData).then(res => {        
+          const url = "http://www.explorm.com/oss/" + res.obj;
+          console.log(url)
 
-                console.log('获取文件临时链接', res)
-                const url =  res.fileList[0].tempFileURL.replace('https','http');
-                // 发送到设备上
-                that.deviceActionSync('download_file', {
-                  url,
-                  local_path: '/data/photo/' + that.data.currentSwiper + '.jpg',
-                  file_type: 4,
-                  value: that.data.currentSwiper,
-                })
-              },
-              fail: console.error
-            }) 
-          },
+          // 发送到设备上
+          that.deviceActionSync('download_file', {
+            url,
+            local_path: '/data/photo/' + that.data.currentSwiper + '.jpg',
+            file_type: 4,
+            value: that.data.currentSwiper,
+          })
+        }).catch(() => {
+          
         })
       }
     })
