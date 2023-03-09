@@ -23,26 +23,6 @@ Page({
   onLoad({deviceId, isShareDevice = false }) {
     this.isShareDevice = isShareDevice;
     this.deviceId = deviceId;
-    this.unsubscribeAll = subscribeStore([
-      {
-        selector: state => ({
-          deviceInfo: (isShareDevice ? state.shareDeviceList : state.deviceList)
-            .find(item => item.DeviceId === deviceId),
-        }),
-        onChange: this.prepareData.bind(this),
-      },
-    ]);
-  },
-
-  prepareData(state, oldState) {
-    const dataKeys = [ 'deviceInfo' ];
-    // 数据没有变化时，不重新 setData
-    if (oldState && dataKeys.every(key => state[key] === oldState[key])) {
-      return;
-    }
-    
-    this.setData({ deviceInfo: state.deviceInfo });
-    console.log(this.data.deviceInfo);
   },
 
   deviceActionSync: function(actionId, inputParams) {
@@ -56,9 +36,16 @@ Page({
           message: '设备下载中...',
           forbidClick: true,
         });
-        callDeviceActionSync(this.data.deviceInfo, actionId, inputParams).then( x => {
+        callDeviceActionSync(this.deviceId.split('/', 2)[0], this.deviceId.split('/', 2)[1], actionId, inputParams).then( x => {
            console.log(x.Status, x.OutputParams) 
            Toast.clear();
+           var obj = JSON.parse(x.OutputParams)
+          if(obj.code != 0) {
+            Toast.loading({
+              message: '请稍后尝试',
+              type: "fail",
+            });
+          }
         });
 
       } catch (err) {

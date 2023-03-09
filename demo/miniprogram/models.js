@@ -235,10 +235,10 @@ const updateDeviceInFamily = async ({ ProductId, DeviceName, AliasName }) => req
   AliasName
 });
 
-const callDeviceActionSync = async (device, actionId, inputParams) => {
+const callDeviceActionSync = async (ProductId, DeviceName, actionId, inputParams) => {
   const { Status, OutputParams } = await requestApi('AppCallDeviceActionSync', {
-    ProductId: device.ProductId,
-    DeviceName: device.DeviceName,
+    ProductId: ProductId,
+    DeviceName: DeviceName,
     ActionId: actionId,
     InputParams: JSON.stringify(inputParams),
   })

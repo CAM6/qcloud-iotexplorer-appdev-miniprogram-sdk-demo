@@ -64,7 +64,7 @@
           direction="horizontal"
         >
         <block wx:for="{{ deviceData.display_mode.properties.mappingList }}">
-          <van-radio name="{{ index }}" custom-class="custom-radio" checked-color="#0019ff">
+          <van-radio name="{{ index }}" custom-class="custom-radio" checked-color="#0019ff" icon-class="icon-class	" label-class="label-class">
             {{ deviceData.display_mode.properties.mappingList[index] }}
           </van-radio>
         </block>

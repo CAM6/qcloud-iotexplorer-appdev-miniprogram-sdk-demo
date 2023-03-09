@@ -88,7 +88,7 @@
         />
       </van-cell>
     </view>
-
+<!-- 
     <view class="collapse-area">
       <van-collapse value="{{ activeNames}}" bind:change="onCollapseChange" custom-class="collapse">
         <van-collapse-item title="睡眠设置" name="1">
@@ -104,7 +104,7 @@
           </view>
         </van-collapse-item>
       </van-collapse>
-    </view>
+    </view> -->
   </view>
 </view>
 

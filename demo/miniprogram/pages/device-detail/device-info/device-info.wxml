@@ -2,6 +2,8 @@
 
 <view class="container">
 
+  <van-toast id="van-toast" z-index="1"/>
+
   <van-cell 
     title="厂家名称"
     value="{{deviceExtInfo.ManufacturerName}}"
@@ -21,8 +23,15 @@
   />
   <van-cell 
     title="设备ID"
-    value="{{deviceId}}" 
+    value="{{deviceName}}" 
     value-class="value-class"
+  />
+  <van-cell 
+    title="wifi信号"
+    value="{{wifiRssi + 'dbm (点击更新)'}}" 
+    value-class="value-class"
+    bind:click="clickWifiRssi"
+    clickable="true"
   />
 </view>
 

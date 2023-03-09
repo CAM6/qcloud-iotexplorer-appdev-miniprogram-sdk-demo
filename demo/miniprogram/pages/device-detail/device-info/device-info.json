@@ -1,7 +1,9 @@
 {
   "usingComponents": {
     "van-cell": "@vant/weapp/cell/index",
-    "van-cell-group": "@vant/weapp/cell-group/index"
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-toast": "@vant/weapp/toast/index"
   },
+  "enablePullDownRefresh":true,
   "navigationBarTitleText": "设备信息"
 }
