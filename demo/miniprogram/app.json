@@ -45,7 +45,7 @@
       ],
       "plugins": {
         "iotexplorer-weapp-plugin": {
-          "version": "3.2.5",
+          "version": "3.2.6",
           "provider": "wxb711dd9e4296e7f6"
         }
       }
