@@ -15,6 +15,7 @@ Page({
    */
   data: {    
     deviceInfo: {},
+    theme_arr: [],
   },
 
   /**
@@ -23,6 +24,15 @@ Page({
   onLoad({deviceId, isShareDevice = false }) {
     this.isShareDevice = isShareDevice;
     this.deviceId = deviceId;
+
+    var list = []
+    for(var i = 0; i < 36; i++) {
+      list.push(i)
+    }
+    this.setData({
+      theme_arr: list,
+    }) 
+    console.log(this.data.theme_arr)
   },
 
   deviceActionSync: function(actionId, inputParams) {
