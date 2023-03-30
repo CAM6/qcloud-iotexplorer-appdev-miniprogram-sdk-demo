@@ -26,7 +26,7 @@ Page({
     this.deviceId = deviceId;
 
     var list = []
-    for(var i = 0; i < 36; i++) {
+    for(var i = 0; i < 41; i++) {
       list.push(i)
     }
     this.setData({
